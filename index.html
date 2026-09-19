@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b1020" />
+  <title>BloxNex — Cuestionarios de Roblox</title>
+  <meta name="description" content="BloxNex: cuestionarios, trivias y minijuegos para fans de Roblox." />
+  <style>
+    :root{
+      --bg:#080b16;
+      --panel:rgba(17,23,43,.78);
+      --panel-2:#121a31;
+      --text:#f7f9ff;
+      --muted:#aab3cc;
+      --primary:#7c5cff;
+      --secondary:#00d9ff;
+      --accent:#ff4fd8;
+      --good:#48e08a;
+      --bad:#ff6b7a;
+      --border:rgba(255,255,255,.10);
+      --shadow:0 20px 60px rgba(0,0,0,.35);
+      --radius:24px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(124,92,255,.18), transparent 32%),
+        radial-gradient(circle at 90% 15%, rgba(0,217,255,.15), transparent 28%),
+        radial-gradient(circle at 50% 90%, rgba(255,79,216,.12), transparent 30%),
+        var(--bg);
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+
+    body.light{
+      --bg:#f4f7ff;
+      --panel:rgba(255,255,255,.86);
+      --panel-2:#ffffff;
+      --text:#11172a;
+      --muted:#5e6880;
+      --border:rgba(17,23,42,.10);
+      --shadow:0 20px 60px rgba(42,57,100,.15);
+    }
+
+    .noise{
+      position:fixed; inset:0; pointer-events:none; opacity:.035;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+      z-index:-1;
+    }
+
+    .blob{
+      position:fixed; width:340px; height:340px; border-radius:50%;
+      filter:blur(70px); opacity:.18; z-index:-2; pointer-events:none;
+      animation:float 8s ease-in-out infinite alternate;
+    }
+    .blob.one{background:#7c5cff; top:7%; left:-80px}
+    .blob.two{background:#00d9ff; top:38%; right:-110px; animation-delay:1s}
+    .blob.three{background:#ff4fd8; bottom:-120px; left:35%; animation-delay:2s}
+    @keyframes float{to{transform:translateY(35px) translateX(25px)}}
+
+    .wrap{max-width:1180px;margin:auto;padding:0 20px}
+
+    header{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter:blur(18px);
+      background:linear-gradient(to bottom, rgba(8,11,22,.88), rgba(8,11,22,.54));
+      border-bottom:1px solid var(--border);
+    }
+    body.light header{
+      background:linear-gradient(to bottom, rgba(244,247,255,.92), rgba(244,247,255,.62));
+    }
+
+    .nav{
+      min-height:76px; display:flex; align-items:center; justify-content:space-between; gap:14px;
+    }
+    .brand{display:flex;align-items:center;gap:11px;font-weight:900;letter-spacing:-.04em;font-size:1.35rem}
+    .brand-mark{
+      width:42px;height:42px;border-radius:14px;display:grid;place-items:center;
+      background:linear-gradient(135deg,var(--primary),var(--accent));
+      box-shadow:0 10px 30px rgba(124,92,255,.35);
+      font-size:1.35rem;
+    }
+    .nav-actions{display:flex;gap:8px;align-items:center}
+    button,.btn{
+      border:0; color:inherit; cursor:pointer; font:inherit;
+    }
+    .icon-btn{
+      width:42px;height:42px;border-radius:13px;background:var(--panel);
+      border:1px solid var(--border);display:grid;place-items:center;
+      transition:.2s transform,.2s background;
+    }
+    .icon-btn:hover{transform:translateY(-2px);background:rgba(124,92,255,.18)}
+    .nav-btn{
+      display:none; padding:11px 14px; border-radius:13px; background:var(--panel);
+      border:1px solid var(--border);
+    }
+
+    main{padding-bottom:70px}
+    .hero{padding:85px 0 40px; text-align:center; position:relative}
+    .badge{
+      display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;
+      background:rgba(124,92,255,.12);border:1px solid rgba(124,92,255,.25);
+      color:#ddd7ff;font-weight:800;font-size:.88rem;
+    }
+    body.light .badge{color:#51408f}
+    .hero h1{
+      font-size:clamp(2.8rem,7vw,5.7rem); line-height:.94; margin:22px auto 20px;
+      letter-spacing:-.065em; max-width:900px;
+    }
+    .gradient{
+      background:linear-gradient(90deg,#fff,#b7cbff 40%,#72efff 70%,#e9a1ff);
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
+    body.light .gradient{background:linear-gradient(90deg,#11172a,#5d4ed4,#00a5d1);-webkit-background-clip:text;background-clip:text}
+    .hero p{max-width:760px;margin:0 auto;color:var(--muted);font-size:1.08rem;line-height:1.65}
+    .hero-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:28px}
+    .primary{
+      padding:14px 19px;border-radius:15px;font-weight:900;
+      background:linear-gradient(135deg,var(--primary),#5a81ff);
+      box-shadow:0 15px 35px rgba(92,94,255,.27);
+      transition:.2s transform,.2s box-shadow;
+    }
+    .primary:hover{transform:translateY(-3px);box-shadow:0 19px 42px rgba(92,94,255,.36)}
+    .secondary{
+      padding:14px 19px;border-radius:15px;font-weight:800;
+      background:var(--panel);border:1px solid var(--border);
+      transition:.2s transform;
+    }
+    .secondary:hover{transform:translateY(-3px)}
+
+    .stats{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:38px;
+    }
+    .stat{
+      padding:17px;border:1px solid var(--border);background:var(--panel);
+      border-radius:18px;text-align:left;box-shadow:var(--shadow);
+    }
+    .stat strong{display:block;font-size:1.5rem}
+    .stat span{font-size:.87rem;color:var(--muted)}
+
+    .section{padding:48px 0}
+    .section-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:18px}
+    .section h2{margin:0;font-size:2rem;letter-spacing:-.04em}
+    .section-head p{margin:5px 0 0;color:var(--muted)}
+    .search{
+      width:min(300px,100%);padding:12px 14px;border-radius:14px;
+      border:1px solid var(--border);background:var(--panel);color:var(--text);outline:none;
+    }
+
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .card{
+      background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+      padding:20px;box-shadow:var(--shadow);position:relative;overflow:hidden;
+      transition:.24s transform,.24s border-color,.24s box-shadow;
+    }
+    .card:hover{transform:translateY(-5px);border-color:rgba(124,92,255,.38);box-shadow:0 28px 65px rgba(0,0,0,.32)}
+    .card::after{
+      content:"";position:absolute;width:180px;height:180px;right:-80px;top:-90px;
+      background:radial-gradient(circle,rgba(124,92,255,.23),transparent 68%);
+    }
+    .cover{
+      height:138px;border-radius:18px;display:grid;place-items:center;font-size:3.3rem;
+      background:
+        linear-gradient(135deg,rgba(124,92,255,.55),rgba(0,217,255,.22)),
+        repeating-linear-gradient(45deg,rgba(255,255,255,.05) 0 10px,transparent 10px 20px);
+      border:1px solid rgba(255,255,255,.08);
+      margin-bottom:15px;
+    }
+    .cover.alt{background:linear-gradient(135deg,rgba(255,79,216,.44),rgba(124,92,255,.24))}
+    .cover.green{background:linear-gradient(135deg,rgba(46,214,137,.35),rgba(0,217,255,.2))}
+    .cover.orange{background:linear-gradient(135deg,rgba(255,154,72,.4),rgba(255,79,216,.2))}
+    .tag{
+      display:inline-flex;align-items:center;gap:6px;font-size:.76rem;font-weight:900;
+      color:#d8dfff;padding:7px 9px;border-radius:999px;background:rgba(255,255,255,.07);
+      border:1px solid var(--border);
+    }
+    body.light .tag{color:#46506a;background:rgba(17,23,42,.035)}
+    .card h3{margin:11px 0 7px;font-size:1.22rem}
+    .card p{margin:0;color:var(--muted);line-height:1.55;font-size:.93rem}
+    .card-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:18px}
+    .mini{font-size:.8rem;color:var(--muted)}
+    .play{padding:10px 13px;border-radius:12px;background:rgba(124,92,255,.16);border:1px solid rgba(124,92,255,.25);font-weight:900}
+    .play:hover{background:rgba(124,92,255,.26)}
+
+    .leader{
+      display:grid;grid-template-columns:1.2fr .8fr;gap:16px;
+    }
+    .leaderboard .row{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      padding:13px 0;border-bottom:1px solid var(--border);
+    }
+    .leaderboard .row:last-child{border-bottom:0}
+    .player{display:flex;align-items:center;gap:11px}
+    .avatar{width:38px;height:38px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,#202945,#3b4975)}
+    .score{font-weight:900}
+    .tip h3{margin-top:0}
+    .tip p{color:var(--muted);line-height:1.65}
+
+    .footer{
+      padding:38px 0 55px;border-top:1px solid var(--border);text-align:center;color:var(--muted)
+    }
+
+    /* Modal / quiz */
+    .modal{
+      position:fixed;inset:0;background:rgba(3,6,13,.77);backdrop-filter:blur(12px);
+      display:none;place-items:center;padding:18px;z-index:100;
+    }
+    .modal.open{display:grid}
+    .quiz{
+      width:min(800px,100%);max-height:92vh;overflow:auto;
+      background:var(--panel-2);border:1px solid var(--border);border-radius:28px;
+      box-shadow:0 30px 100px rgba(0,0,0,.5);padding:22px;
+    }
+    .quiz-top{display:flex;align-items:center;justify-content:space-between;gap:14px}
+    .close{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.07);border:1px solid var(--border)}
+    .progress{height:9px;background:rgba(255,255,255,.06);border-radius:999px;overflow:hidden;margin:16px 0 25px}
+    .progress > div{height:100%;width:0%;background:linear-gradient(90deg,var(--primary),var(--secondary));transition:.35s width}
+    .q-number{font-size:.85rem;color:var(--muted);font-weight:800}
+    .question{font-size:1.55rem;line-height:1.3;margin:9px 0 18px;letter-spacing:-.025em}
+    .options{display:grid;gap:10px}
+    .option{
+      text-align:left;padding:15px;border-radius:16px;border:1px solid var(--border);
+      background:rgba(255,255,255,.025);color:var(--text);transition:.2s transform,.2s border-color,.2s background;
+    }
+    .option:hover{transform:translateX(3px);border-color:rgba(0,217,255,.4);background:rgba(0,217,255,.06)}
+    .option.correct{border-color:rgba(72,224,138,.5);background:rgba(72,224,138,.12)}
+    .option.wrong{border-color:rgba(255,107,122,.45);background:rgba(255,107,122,.10)}
+    .quiz-bottom{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:18px}
+    .result{text-align:center;padding:24px 8px}
+    .result .big{font-size:4.3rem}
+    .result h3{font-size:2rem;margin:8px 0}
+    .result p{color:var(--muted);line-height:1.65}
+    .result .rank{display:inline-block;padding:9px 13px;border-radius:999px;background:rgba(124,92,255,.14);border:1px solid rgba(124,92,255,.25);font-weight:900}
+
+    .toast{
+      position:fixed;bottom:22px;right:22px;z-index:200;
+      background:var(--panel-2);border:1px solid var(--border);padding:13px 15px;border-radius:15px;
+      box-shadow:var(--shadow);transform:translateY(20px);opacity:0;pointer-events:none;transition:.25s;
+    }
+    .toast.show{transform:translateY(0);opacity:1}
+
+    .hidden{display:none!important}
+    .empty{grid-column:1/-1;text-align:center;padding:30px;color:var(--muted)}
+
+    @media(max-width:920px){
+      .grid{grid-template-columns:repeat(2,1fr)}
+      .leader{grid-template-columns:1fr}
+    }
+    @media(max-width:650px){
+      .nav-btn{display:block}
+      .desktop-only{display:none}
+      .hero{padding-top:58px}
+      .stats{grid-template-columns:1fr}
+      .grid{grid-template-columns:1fr}
+      .section-head{align-items:stretch;flex-direction:column}
+      .search{width:100%}
+      .hero-actions{flex-direction:column}
+      .hero-actions > *{width:100%}
+      .question{font-size:1.3rem}
+    }
+  </style>
+</head>
+<body>
+  <div class="noise"></div>
+  <div class="blob one"></div><div class="blob two"></div><div class="blob three"></div>
+
+  <header>
+    <div class="wrap nav">
+      <div class="brand">
+        <div class="brand-mark">⚡</div>
+        <span>BloxNex</span>
+      </div>
+      <div class="nav-actions">
+        <a class="nav-btn desktop-only" href="#quizzes">Quizzes</a>
+        <button class="icon-btn" id="themeBtn" title="Cambiar tema">🌙</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap">
+        <div class="badge">🎮 LA ZONA DE LOS QUIZZES DE ROBLOX</div>
+        <h1><span class="gradient">Bienvenido a BloxNex</span><br>¿Qué tan fan de Roblox eres?</h1>
+        <p>
+          Pon a prueba tus conocimientos con quizzes de Roblox, juegos famosos de la plataforma,
+          retos rápidos, verdadero o falso y desafíos sorpresa. Sube tu puntuación y desbloquea rangos.
+        </p>
+        <div class="hero-actions">
+          <a class="primary" href="#quizzes">🚀 Empezar a jugar</a>
+          <button class="secondary" id="randomBtn">🎲 Sorpréndeme</button>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><strong>5+</strong><span>jueguitos interactivos</span></div>
+          <div class="stat"><strong>40+</strong><span>preguntas listas para jugar</span></div>
+          <div class="stat"><strong>∞</strong><span>veces que puedes repetirlos</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="quizzes">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>🔥 Elige tu desafío</h2>
+            <p>Todos los resultados se calculan dentro de la página.</p>
+          </div>
+          <input class="search" id="search" placeholder="🔎 Buscar un quiz..." />
+        </div>
+        <div class="grid" id="quizGrid"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap leader">
+        <div class="card leaderboard">
+          <div class="section-head" style="margin-bottom:6px">
+            <div>
+              <h2 style="font-size:1.55rem">🏆 Salón de récords</h2>
+              <p>Récords de demostración para darle vida a la web.</p>
+            </div>
+          </div>
+          <div class="row"><div class="player"><div class="avatar">🥇</div><div><strong>NexMaster</strong><div class="mini">Quiz Roblox</div></div></div><div class="score">980</div></div>
+          <div class="row"><div class="player"><div class="avatar">🥈</div><div><strong>BloxKing</strong><div class="mini">Adivina el juego</div></div></div><div class="score">920</div></div>
+          <div class="row"><div class="player"><div class="avatar">🥉</div><div><strong>ProBuilder</strong><div class="mini">Reto relámpago</div></div></div><div class="score">860</div></div>
+          <div class="row"><div class="player"><div class="avatar">⚡</div><div><strong>Tu récord</strong><div class="mini">Se actualizará con tus partidas</div></div></div><div class="score" id="myScore">0</div></div>
+        </div>
+
+        <div class="card tip">
+          <div class="cover alt" style="height:120px">🧠✨</div>
+          <h3>💡 Tip BloxNex</h3>
+          <p>
+            No busques la respuesta a la primera 😎. Haz los quizzes otra vez e intenta superar
+            tu puntuación. Cada partida puede darte un rango distinto.
+          </p>
+          <button class="primary" style="margin-top:10px" onclick="startRandom()">🎲 Reto aleatorio</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <strong>BloxNex ⚡</strong><br>
+      <span>Creado para fans de Roblox. Esta web no es un sitio oficial de Roblox.</span>
+    </div>
+  </footer>
+
+  <div class="modal" id="modal">
+    <div class="quiz">
+      <div class="quiz-top">
+        <div>
+          <div class="q-number" id="quizTitle">Quiz</div>
+          <div style="font-weight:900;font-size:1.08rem" id="quizScore">Puntos: 0</div>
+        </div>
+        <button class="close" onclick="closeModal()">✕</button>
+      </div>
+
+      <div class="progress"><div id="progressBar"></div></div>
+      <div id="quizBody"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const quizzes = [
+      {
+        id:"fanatico",
+        title:"¿Qué tan fanático de Roblox eres?",
+        desc:"Una mezcla de historia, cultura de Roblox y cosas que cualquier jugador debería reconocer.",
+        icon:"🎮", cover:"", category:"Roblox",
+        questions:[
+          {q:"¿Qué plataforma se usa para crear experiencias de Roblox?",o:["Roblox Studio","Roblox Music","Blox Editor","Player Studio"],a:0},
+          {q:"¿Cómo se llama el avatar que controlas en Roblox?",o:["Tu personaje","Tu Robloxian","Tu avatar","Todas las anteriores"],a:3},
+          {q:"¿Qué objeto suele aparecer como moneda dentro de muchísimas experiencias?",o:["Coins","Stars","XP","Keys"],a:0},
+          {q:"¿Qué puedes hacer con una experiencia que te encanta?",o:["Marcarla como favorita","Guardarla en favoritos","Seguir al creador","Todas las anteriores"],a:3},
+          {q:"¿Cuál de estas cosas puedes personalizar en tu perfil?",o:["Avatar","Nombre para mostrar","Descripción","Todas las anteriores"],a:3},
+          {q:"¿Qué se utiliza normalmente para programar la lógica de un juego en Roblox Studio?",o:["Lua / Luau","Python","Java","HTML"],a:0},
+          {q:"¿Qué significa AFK normalmente?",o:["Away From Keyboard","A Friend Knows","All Fans Keep","Action For Kills"],a:0},
+          {q:"Si una experiencia tiene un portal a otra zona, ¿qué estás haciendo?",o:["Cambiando de mapa","Entrando a otra área","Teletransportándote","Todas las anteriores"],a:3},
+          {q:"¿Qué suele contener una buena miniatura de una experiencia?",o:["Una imagen llamativa","Texto corto","Una idea clara del juego","Todas las anteriores"],a:3},
+          {q:"¿Qué es más importante al jugar un juego de Roblox con amigos?",o:["Divertirse","Competir con respeto","Probar cosas nuevas","Las tres"],a:3}
+        ]
+      },
+      {
+        id:"juegos",
+        title:"🔥 Juegos famosos de Roblox",
+        desc:"Reconoce experiencias conocidas y sus estilos de juego.",
+        icon:"👾", cover:"alt", category:"Juegos",
+        questions:[
+          {q:"¿Qué tipo de experiencia es Blox Fruits principalmente?",o:["RPG / aventura","Carreras","Decoración","Puzles"],a:0},
+          {q:"¿Qué estilo caracteriza a Tower of Hell?",o:["Obby de plataformas","Simulador de cocina","Juego de cartas","Mundo de mascotas"],a:0},
+          {q:"¿Cuál de estos es conocido por su temática de terror y puertas?",o:["DOORS","Adopt Me!","Brookhaven","Blade Ball"],a:0},
+          {q:"¿Cuál se centra mucho en adoptar y cuidar mascotas?",o:["Adopt Me!","BedWars","Piggy","Murder Mystery 2"],a:0},
+          {q:"¿En cuál de estos es habitual construir y defender una cama?",o:["BedWars","Brookhaven","DOORS","Blade Ball"],a:0},
+          {q:"¿Cuál mezcla misterio, supervivencia y una amenaza llamada Piggy?",o:["Piggy","Blox Fruits","Tower of Hell","Arsenal"],a:0},
+          {q:"¿Qué experiencia es famosa por sus asesinatos y detective/misterio?",o:["Murder Mystery 2","Brookhaven","Adopt Me!","Tower of Hell"],a:0},
+          {q:"¿Cuál está centrado en combates y habilidades de personajes dentro de una arena?",o:["The Strongest Battlegrounds","Adopt Me!","Brookhaven","DOORS"],a:0},
+          {q:"¿Cuál de estas opciones es una experiencia de roleplay muy conocida?",o:["Brookhaven","Tower of Hell","Blade Ball","Piggy"],a:0},
+          {q:"¿Cuál de estos conceptos describe mejor Blade Ball?",o:["Desviar una bola en combates","Cuidar mascotas","Explorar una mansión","Construir casas"],a:0}
+        ]
+      },
+      {
+        id:"adivina",
+        title:"🕵️ Adivina el juego",
+        desc:"Lee tres pistas y descubre qué experiencia estamos describiendo.",
+        icon:"🕵️", cover:"green", category:"Adivina",
+        questions:[
+          {q:"Pistas: puertas, habitaciones, sustos. ¿Qué juego es?",o:["DOORS","Brookhaven","Blox Fruits","BedWars"],a:0},
+          {q:"Pistas: mascotas, intercambios y una gran ciudad. ¿Qué juego es?",o:["Adopt Me!","Piggy","Tower of Hell","Arsenal"],a:0},
+          {q:"Pistas: parkour, torres, caer significa volver a intentarlo. ¿Qué juego es?",o:["Tower of Hell","Brookhaven","DOORS","Blade Ball"],a:0},
+          {q:"Pistas: frutas, poderes, islas y aventura. ¿Qué juego es?",o:["Blox Fruits","Murder Mystery 2","Piggy","BedWars"],a:0},
+          {q:"Pistas: camas, equipos y combate. ¿Qué juego es?",o:["BedWars","Adopt Me!","Brookhaven","DOORS"],a:0},
+          {q:"Pistas: casas, coches, ciudad y roleplay. ¿Qué juego es?",o:["Brookhaven","Piggy","Tower of Hell","Blade Ball"],a:0},
+          {q:"Pistas: asesino, inocentes y sheriff. ¿Qué juego es?",o:["Murder Mystery 2","Blox Fruits","BedWars","Adopt Me!"],a:0},
+          {q:"Pistas: arena PvP, habilidades y personajes inspirados en anime. ¿Qué experiencia es?",o:["The Strongest Battlegrounds","DOORS","Brookhaven","Piggy"],a:0}
+        ]
+      },
+      {
+        id:"vf",
+        title:"✅ Verdadero o falso",
+        desc:"Solo dos opciones. ¿Cuánto sabes de la cultura gamer de Roblox?",
+        icon:"⚡", cover:"orange", category:"Rápido",
+        questions:[
+          {q:"Roblox Studio sirve para crear experiencias.",o:["Verdadero","Falso"],a:0},
+          {q:"Luau se usa para programar en Roblox.",o:["Verdadero","Falso"],a:0},
+          {q:"DOORS es principalmente una experiencia de cocina.",o:["Verdadero","Falso"],a:1},
+          {q:"Adopt Me! tiene mascotas como parte importante de su experiencia.",o:["Verdadero","Falso"],a:0},
+          {q:"Tower of Hell es conocido por su estilo de obby.",o:["Verdadero","Falso"],a:0},
+          {q:"Brookhaven está asociado al roleplay.",o:["Verdadero","Falso"],a:0},
+          {q:"BedWars gira alrededor de defender camas por equipos.",o:["Verdadero","Falso"],a:0},
+          {q:"Murder Mystery 2 no tiene misterio alguno.",o:["Verdadero","Falso"],a:1},
+          {q:"Puedes jugar algunos títulos de Roblox con amigos.",o:["Verdadero","Falso"],a:0},
+          {q:"En un quiz puedes volver a intentarlo para superar tu récord.",o:["Verdadero","Falso"],a:0}
+        ]
+      },
+      {
+        id:"relampago",
+        title:"⏱️ Reto relámpago",
+        desc:"Pregunta rápida, cuatro opciones y cero tiempo para pensarlo demasiado 😈.",
+        icon:"⏱️", cover:"green", category:"Reto",
+        questions:[
+          {q:"¿Qué palabra ves muchísimo en los juegos cuando debes esperar para volver a entrar?",o:["Cooldown","Sunshine","Lucky","Lobby"],a:0},
+          {q:"¿Qué botón suele abrir opciones o ajustes?",o:["Settings","Jump","Spawn","Trade"],a:0},
+          {q:"¿Qué significa PvP?",o:["Player vs Player","Play vs Platform","Power vs Power","Player Victory Points"],a:0},
+          {q:"¿Qué suele darte experiencia (XP) en muchos juegos?",o:["Completar acciones o misiones","Cerrar el juego","Cambiar el idioma","No hacer nada"],a:0},
+          {q:"¿Qué suele significar NPC?",o:["Non-Player Character","New Player Code","Next Player Challenge","No Premium Coins"],a:0},
+          {q:"¿Qué puede ser un checkpoint?",o:["Un punto al que vuelves tras caer","Una mascota","Una moneda","Un arma"],a:0},
+          {q:"¿Qué significa 'obby' normalmente en Roblox?",o:["Obstacle course","Online battle","Open lobby","Object builder"],a:0},
+          {q:"¿Qué acción suele servir para volver a empezar tras perder?",o:["Respawn","Trade","Emote","Favorite"],a:0}
+        ]
+      }
+    ];
+
+    const quizGrid = document.getElementById("quizGrid");
+    const search = document.getElementById("search");
+    const modal = document.getElementById("modal");
+    const quizBody = document.getElementById("quizBody");
+    const quizTitle = document.getElementById("quizTitle");
+    const quizScore = document.getElementById("quizScore");
+    const progressBar = document.getElementById("progressBar");
+    const toast = document.getElementById("toast");
+
+    let activeQuiz = null;
+    let qIndex = 0;
+    let score = 0;
+    let answered = false;
+    let highScore = Number(localStorage.getItem("bloxnexHighScore") || 0);
+
+    document.getElementById("myScore").textContent = highScore;
+
+    function renderCards(list = quizzes){
+      quizGrid.innerHTML = "";
+      if(!list.length){
+        quizGrid.innerHTML = '<div class="empty">😶 No encontramos ese quiz. Prueba con otra palabra.</div>';
+        return;
+      }
+      list.forEach(q=>{
+        const card = document.createElement("article");
+        card.className="card quiz-card";
+        card.innerHTML = `
+          <div class="cover ${q.cover || ""}">${q.icon}</div>
+          <span class="tag">🎯 ${q.category}</span>
+          <h3>${q.title}</h3>
+          <p>${q.desc}</p>
+          <div class="card-footer">
+            <span class="mini">${q.questions.length} preguntas</span>
+            <button class="play" onclick="startQuiz('${q.id}')">Jugar →</button>
+          </div>
+        `;
+        quizGrid.appendChild(card);
+      });
+    }
+
+    function startQuiz(id){
+      const found = quizzes.find(q=>q.id===id);
+      if(!found) return;
+      activeQuiz=found;
+      qIndex=0;
+      score=0;
+      answered=false;
+      modal.classList.add("open");
+      renderQuestion();
+    }
+
+    function startRandom(){
+      const q = quizzes[Math.floor(Math.random()*quizzes.length)];
+      startQuiz(q.id);
+    }
+
+    window.startQuiz=startQuiz;
+    window.startRandom=startRandom;
+
+    function renderQuestion(){
+      answered=false;
+      const q=activeQuiz.questions[qIndex];
+      quizTitle.textContent = activeQuiz.title;
+      quizScore.textContent = `Puntos: ${score}`;
+      progressBar.style.width = `${(qIndex / activeQuiz.questions.length)*100}%`;
+
+      quizBody.innerHTML = `
+        <div class="q-number">Pregunta ${qIndex+1} de ${activeQuiz.questions.length}</div>
+        <div class="question">${q.q}</div>
+        <div class="options">
+          ${q.o.map((op,i)=>`<button class="option" data-i="${i}">${op}</button>`).join("")}
+        </div>
+        <div class="quiz-bottom">
+          <span class="mini">💡 Elige una respuesta</span>
+          <button class="primary hidden" id="nextBtn">Siguiente →</button>
+        </div>
+      `;
+
+      document.querySelectorAll(".option").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          if(answered) return;
+          answered=true;
+          const selected=Number(btn.dataset.i);
+          const correct=q.a;
+          document.querySelectorAll(".option").forEach((b,i)=>{
+            b.disabled=true;
+            if(i===correct) b.classList.add("correct");
+            if(i===selected && selected!==correct) b.classList.add("wrong");
+          });
+          if(selected===correct){
+            score += 100;
+            showToast("✅ ¡Correcto! +100");
+          }else{
+            showToast("❌ Casi. La respuesta correcta está marcada.");
+          }
+          quizScore.textContent=`Puntos: ${score}`;
+          const next=document.getElementById("nextBtn");
+          next.classList.remove("hidden");
+          next.textContent = qIndex===activeQuiz.questions.length-1 ? "🏆 Ver resultado" : "Siguiente →";
+          next.onclick = ()=>{
+            if(qIndex===activeQuiz.questions.length-1) showResult();
+            else {qIndex++; renderQuestion();}
+          };
+        });
+      });
+    }
+
+    function rankFor(points,total){
+      const pct=points/(total*100);
+      if(pct>=.9) return ["👑 Leyenda de BloxNex","Tienes nivel de enciclopedia de Roblox."];
+      if(pct>=.7) return ["🔥 Pro de Roblox","Se nota que juegas bastante."];
+      if(pct>=.5) return ["⚡ Fan de Roblox","Vas muy bien. Unas partidas más y subes."];
+      return ["🌱 Novato con potencial","No pasa nada: ¡reintenta y rompe tu récord!"];
+    }
+
+    function showResult(){
+      progressBar.style.width="100%";
+      const [rank,msg]=rankFor(score,activeQuiz.questions.length);
+      if(score>highScore){
+        highScore=score;
+        localStorage.setItem("bloxnexHighScore",highScore);
+        document.getElementById("myScore").textContent=highScore;
+      }
+      quizBody.innerHTML = `
+        <div class="result">
+          <div class="big">${score>=activeQuiz.questions.length*70 ? "🏆" : "🎮"}</div>
+          <div class="rank">${rank}</div>
+          <h3>${score} puntos</h3>
+          <p>${msg}<br>Has acertado aproximadamente <strong>${Math.round(score/activeQuiz.questions.length)}%</strong> de las preguntas.</p>
+          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px">
+            <button class="primary" onclick="startQuiz('${activeQuiz.id}')">🔄 Jugar otra vez</button>
+            <button class="secondary" onclick="startRandom()">🎲 Otro quiz</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function closeModal(){
+      modal.classList.remove("open");
+    }
+    window.closeModal=closeModal;
+
+    modal.addEventListener("click",(e)=>{
+      if(e.target===modal) closeModal();
+    });
+
+    search.addEventListener("input",()=>{
+      const term=search.value.toLowerCase().trim();
+      const list=quizzes.filter(q=>
+        q.title.toLowerCase().includes(term) ||
+        q.desc.toLowerCase().includes(term) ||
+        q.category.toLowerCase().includes(term)
+      );
+      renderCards(list);
+    });
+
+    document.getElementById("randomBtn").addEventListener("click",startRandom);
+
+    document.getElementById("themeBtn").addEventListener("click",()=>{
+      document.body.classList.toggle("light");
+      const light=document.body.classList.contains("light");
+      localStorage.setItem("bloxnexTheme",light?"light":"dark");
+      document.getElementById("themeBtn").textContent=light?"☀️":"🌙";
+    });
+
+    if(localStorage.getItem("bloxnexTheme")==="light"){
+      document.body.classList.add("light");
+      document.getElementById("themeBtn").textContent="☀️";
+    }
+
+    function showToast(message){
+      toast.textContent=message;
+      toast.classList.add("show");
+      clearTimeout(window.toastTimer);
+      window.toastTimer=setTimeout(()=>toast.classList.remove("show"),1900);
+    }
+
+    renderCards();
+  </script>
+</body>
+</html>
