@@ -3,143 +3,372 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>BloxNex — El Juego Más Troll Del Mundo</title>
+<title>BloxNex — El juego más troll del mundo</title>
 <style>
-:root{--bg:#070910;--panel:#111625;--panel2:#171e31;--text:#f7f9ff;--muted:#99a6c4;--a:#7b5cff;--b:#19dbff;--pink:#ff4fd8;--good:#49e38c;--bad:#ff5971}
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Inter,system-ui,Arial;background:radial-gradient(circle at 20% 10%,#21205a 0,#0a0c15 38%,#05060a 100%);color:var(--text)}
-body.shake{animation:shake .26s}@keyframes shake{25%{transform:translateX(-5px)}50%{transform:translateX(6px)}75%{transform:translateX(-4px)}}
-button{font:inherit;color:inherit;cursor:pointer}
-.top{height:64px;border-bottom:1px solid #ffffff12;background:#070910d9;backdrop-filter:blur(15px);display:flex;align-items:center;justify-content:space-between;padding:0 18px;position:relative;z-index:30}
-.brand{font-weight:1000;letter-spacing:-.05em}.brand i{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,var(--a),var(--pink));font-style:normal;margin-right:8px}
-.topright{display:flex;align-items:center;gap:9px;color:var(--muted);font-size:.82rem}.tiny{border:1px solid #ffffff14;background:#ffffff08;border-radius:10px;padding:9px 11px}
-#game{position:relative;height:calc(100% - 64px);overflow:hidden}.screen{position:absolute;inset:0;display:none}.screen.on{display:grid}
-.intro{place-items:center;padding:18px}.introCard{width:min(910px,94vw);padding:46px 30px 38px;border:1px solid #ffffff12;border-radius:32px;background:linear-gradient(180deg,#12182bf0,#0d1220f4);box-shadow:0 30px 100px #0008;text-align:center;position:relative;overflow:hidden}
-.introCard:before,.introCard:after{content:"";position:absolute;width:380px;height:380px;border-radius:50%;filter:blur(70px);opacity:.2;pointer-events:none}.introCard:before{background:#7b5cff;left:-170px;top:-190px}.introCard:after{background:#19dbff;right:-170px;bottom:-190px}
-.kicker{display:inline-block;padding:8px 12px;border:1px solid #ffffff15;border-radius:999px;background:#ffffff08;color:#cbd4eb;font-size:.76rem;font-weight:900;letter-spacing:.08em}
-h1{font-size:clamp(3rem,8vw,6.3rem);line-height:.88;letter-spacing:-.075em;margin:20px 0 18px;position:relative}.grad{background:linear-gradient(90deg,#fff,#a9b8ff,#53eaff,#f49fe9);color:transparent;background-clip:text;-webkit-background-clip:text}
-.sub{max-width:760px;margin:auto;color:#aab5d0;line-height:1.7;position:relative}.big{margin-top:24px;border:0;border-radius:16px;padding:15px 23px;font-weight:1000;color:#fff;background:linear-gradient(135deg,#7b5cff,#567cff);box-shadow:0 17px 40px #6b56ff38}
-.legal{font-size:.75rem;color:#77839e;margin-top:13px;position:relative}
-.hud{height:86px;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:relative;z-index:10}
-.hudLeft{display:flex;align-items:center;gap:10px;min-width:0}.lvl{font-weight:1000;white-space:nowrap}.bar{width:min(340px,32vw);height:8px;background:#ffffff0b;border-radius:99px;overflow:hidden}.bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--a),var(--b));transition:.3s}.hintTop{color:var(--muted);font-size:.76rem;text-align:right}
-#board{position:absolute;inset:86px 18px 18px;border:1px solid #ffffff0e;border-radius:25px;background:radial-gradient(circle at 50% 50%,#151c31aa,#070a11cc);overflow:hidden}
-.message{position:absolute;left:50%;top:22px;transform:translateX(-50%);text-align:center;width:min(800px,92%);z-index:2}.message h2{margin:0;font-size:clamp(1.6rem,4vw,2.7rem);letter-spacing:-.05em}.message p{margin:8px 0;color:var(--muted);line-height:1.55}
-.stage{position:absolute;inset:0;display:grid;place-items:center}.action{border:0;border-radius:16px;padding:14px 19px;font-weight:1000;background:linear-gradient(135deg,#7b5cff,#4d83ff);box-shadow:0 15px 40px #0006;transition:.16s}.action:hover{transform:translateY(-2px)}
-.troll{position:absolute;border:0;border-radius:17px;padding:14px 18px;font-weight:1000;background:linear-gradient(135deg,#ff4f80,#b85bff);box-shadow:0 16px 44px #0007;transition:left .07s linear,top .07s linear;z-index:5}
-.gameWin{display:none;position:absolute;inset:0;background:#070a11e8;z-index:12;place-items:center;text-align:center;padding:20px}.winCard{width:min(700px,94vw);padding:40px 24px;border:1px solid #ffffff12;border-radius:27px;background:#11172af5;box-shadow:0 30px 90px #0009}.winCard .emoji{font-size:4.8rem}.winCard h2{font-size:2.7rem;margin:10px 0 6px;letter-spacing:-.06em}.winCard p{color:var(--muted);line-height:1.65}
-.options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:min(700px,90%)}.opt{padding:15px;border:1px solid #ffffff12;border-radius:15px;background:#ffffff06;text-align:left;font-weight:850;transition:.18s}.opt:hover{border-color:#19dbff55;background:#19dbff0b;transform:translateY(-2px)}
-.smallgrid{display:grid;grid-template-columns:repeat(4,76px);gap:10px}.memorycell{height:76px;border:1px solid #ffffff12;border-radius:15px;background:#ffffff07;font-size:1.7rem;display:grid;place-items:center}
-.desktop{width:min(720px,90%);border:1px solid #ffffff12;border-radius:18px;background:#0e1320;box-shadow:0 20px 60px #0008;overflow:hidden}.winbar{height:38px;background:#171e30;display:flex;align-items:center;justify-content:space-between;padding:0 11px;color:#a8b3cc;font-size:.75rem}.dots{display:flex;gap:5px}.dots i{width:10px;height:10px;border-radius:50%;background:#555;display:block}.windowContent{padding:22px;min-height:210px;display:grid;place-items:center}
-.fakeError{padding:20px;border:1px solid #ff596d33;background:#ff596d08;border-radius:15px;text-align:center;max-width:500px}.progressDanger{width:min(520px,85%);height:14px;border-radius:999px;background:#ffffff0b;overflow:hidden}.progressDanger>div{width:0;height:100%;background:linear-gradient(90deg,#45e38c,#ffd15a,#ff5971);transition:.2s}
-.target{width:58px;height:58px;border-radius:50%;background:#ff4f6d;border:5px solid #fff5;box-shadow:0 0 0 12px #ff4f6d15,0 15px 45px #0006;position:absolute}.miniTarget{width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 0 0 6px #19dbff44;position:absolute}
-.clock{font-size:4rem;font-weight:1000}.codeBox{display:flex;gap:8px}.codeBox input{width:180px;background:#fff8;border:1px solid #ffffff1c;border-radius:12px;padding:13px;color:#fff;outline:0;text-align:center;font-weight:900;letter-spacing:.2em}
-.toast{position:fixed;right:18px;bottom:18px;z-index:99;padding:13px 16px;border:1px solid #ffffff12;border-radius:14px;background:#111728;color:#dce5ff;box-shadow:0 18px 50px #0007;transform:translateY(20px);opacity:0;transition:.22s}.toast.show{transform:none;opacity:1}
-.conf{position:fixed;top:-20px;width:9px;height:14px;border-radius:2px;z-index:120;animation:fall 1.8s linear forwards;pointer-events:none}@keyframes fall{to{transform:translate3d(var(--x),110vh,0) rotate(720deg);opacity:0}}
-@media(max-width:650px){.hud{height:74px;padding:10px 12px}#board{inset:74px 10px 10px}.hintTop{display:none}.bar{max-width:100px}.options{grid-template-columns:1fr}.smallgrid{grid-template-columns:repeat(4,62px)}.memorycell{height:62px}}
+:root{
+  --bg:#f5f7fb;--white:#fff;--ink:#172033;--muted:#667187;--line:#dce3ee;
+  --blue:#5568ff;--cyan:#18b9df;--pink:#e95cb5;--green:#2fb875;--red:#e95369;
+  --shadow:0 20px 60px rgba(49,66,104,.13)
+}
+*{box-sizing:border-box}
+html,body{width:100%;height:100%;margin:0;overflow:hidden}
+body{
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);
+  background:
+    radial-gradient(circle at 8% 8%,rgba(85,104,255,.13),transparent 24%),
+    radial-gradient(circle at 92% 14%,rgba(24,185,223,.12),transparent 22%),
+    radial-gradient(circle at 50% 100%,rgba(233,92,181,.09),transparent 28%),
+    var(--bg)
+}
+button{font:inherit}
+button:focus-visible{outline:3px solid rgba(85,104,255,.28);outline-offset:2px}
+.top{
+  height:66px;background:rgba(255,255,255,.92);backdrop-filter:blur(15px);border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;padding:0 18px;position:relative;z-index:50
+}
+.brand{display:flex;align-items:center;font-weight:1000;letter-spacing:-.045em}.logo{
+  width:38px;height:38px;border-radius:12px;display:grid;place-items:center;margin-right:9px;color:#fff;
+  background:linear-gradient(135deg,var(--blue),#8a97ff);box-shadow:0 9px 25px rgba(85,104,255,.23)
+}
+.topRight{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.82rem}
+.topBtn{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:11px;padding:8px 10px;cursor:pointer}
+#app{height:calc(100% - 66px);position:relative;overflow:hidden}
+.screen{position:absolute;inset:0;display:none}.screen.active{display:grid}
+.intro{place-items:center;padding:18px}
+.introCard{
+  position:relative;width:min(930px,95vw);padding:46px 30px 39px;text-align:center;background:rgba(255,255,255,.95);
+  border:1px solid var(--line);border-radius:31px;box-shadow:var(--shadow);overflow:hidden
+}
+.introCard:before,.introCard:after{content:"";position:absolute;border-radius:50%;opacity:.5;pointer-events:none}
+.introCard:before{width:310px;height:310px;left:-170px;top:-150px;background:#e4e6ff}.introCard:after{width:310px;height:310px;right:-170px;bottom:-150px;background:#d9f5fc}
+.kicker{position:relative;display:inline-block;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#fbfcff;color:#59657c;font-size:.75rem;font-weight:950;letter-spacing:.07em}
+h1{position:relative;font-size:clamp(3rem,8vw,6.2rem);line-height:.88;letter-spacing:-.075em;margin:20px 0 17px}
+.grad{background:linear-gradient(90deg,#26304b,#5568ff,#10a5cf,#d65fac);color:transparent;-webkit-background-clip:text;background-clip:text}
+.sub{position:relative;max-width:780px;margin:auto;color:var(--muted);line-height:1.7;font-size:1.02rem}
+.primary{
+  margin-top:24px;border:0;border-radius:16px;padding:15px 23px;color:#fff;background:linear-gradient(135deg,var(--blue),#7382ff);
+  box-shadow:0 14px 34px rgba(85,104,255,.22);font-weight:1000;cursor:pointer;transition:.2s transform,.2s box-shadow
+}
+.primary:hover{transform:translateY(-3px);box-shadow:0 19px 40px rgba(85,104,255,.29)}
+.note{position:relative;margin-top:12px;color:#8a95a9;font-size:.76rem}
+.hud{
+  height:86px;padding:10px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;
+  background:rgba(255,255,255,.74);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)
+}
+.hudLeft{display:flex;align-items:center;gap:10px;min-width:0}.level{font-weight:1000;white-space:nowrap}.bar{width:min(360px,34vw);height:8px;border-radius:99px;background:#e8edf4;overflow:hidden}.bar div{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--cyan));transition:.25s}
+.tip{font-size:.76rem;color:var(--muted);text-align:right}
+#board{
+  position:absolute;inset:104px 18px 18px;border:1px solid var(--line);border-radius:25px;background:rgba(255,255,255,.85);
+  box-shadow:var(--shadow);overflow:hidden
+}
+.message{position:absolute;left:50%;top:22px;transform:translateX(-50%);width:min(850px,93%);text-align:center;z-index:3}
+.message h2{margin:0;font-size:clamp(1.55rem,4vw,2.65rem);letter-spacing:-.055em}.message p{margin:8px 0;color:var(--muted);line-height:1.52}
+.stage{position:absolute;inset:0;display:grid;place-items:center}
+.action,.option,.targetButton{
+  border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);padding:13px 17px;
+  font-weight:900;cursor:pointer;box-shadow:0 11px 28px rgba(45,60,91,.10);transition:.16s transform,.16s box-shadow
+}
+.action:hover,.option:hover{transform:translateY(-2px);box-shadow:0 16px 32px rgba(45,60,91,.13)}
+.action.primarySmall{background:linear-gradient(135deg,var(--blue),#7382ff);border-color:transparent;color:#fff}
+.troll{position:absolute;background:linear-gradient(135deg,#ff7098,#9b79ff);border-color:transparent;color:#fff;z-index:7;transition:left .08s linear,top .08s linear,transform .08s}
+.options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;width:min(720px,90%)}
+.option{text-align:left;background:#fcfdff}
+.question{font-size:1.18rem;font-weight:900;margin-bottom:15px}
+.twoCol{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.desktop{width:min(720px,90%);background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 22px 55px rgba(36,52,84,.15)}
+.windowBar{height:39px;background:#f1f4f8;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 11px;color:#66728a;font-size:.77rem}
+.dots{display:flex;gap:5px}.dots i{width:10px;height:10px;border-radius:50%;background:#cdd4df}
+.windowContent{padding:24px;min-height:210px;display:grid;place-items:center;text-align:center}
+.alert{padding:18px;border:1px solid #f0c9d0;background:#fff7f8;border-radius:15px;max-width:540px}
+.progressDanger{width:min(540px,86%);height:13px;border-radius:99px;background:#edf0f5;overflow:hidden}.progressDanger>div{height:100%;width:0;background:linear-gradient(90deg,#4ecb86,#ddc653,#ec5b70)}
+.memoryGrid{display:grid;grid-template-columns:repeat(4,72px);gap:11px}.memoryCell{
+  height:72px;border:1px solid var(--line);border-radius:15px;background:#f8f9fc;color:var(--ink);font-size:1.35rem;font-weight:900;
+  cursor:pointer;box-shadow:0 8px 20px rgba(44,58,91,.06);transition:.14s transform,.14s background
+}
+.memoryCell:not(:disabled):hover{transform:scale(1.04);background:#f1f4ff}.memoryCell:disabled{cursor:default;opacity:.9}
+.memoryReady{color:var(--blue);font-size:.86rem;font-weight:950;margin-bottom:10px;text-align:center}
+.target{position:absolute;width:56px;height:56px;border-radius:50%;background:var(--blue);border:6px solid #fff;box-shadow:0 0 0 8px rgba(85,104,255,.12),0 12px 28px rgba(40,54,84,.15);cursor:pointer}
+.microTarget{position:absolute;width:18px;height:18px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 5px rgba(233,92,181,.14);cursor:pointer}
+.clock{font-size:4.3rem;font-weight:1000;letter-spacing:-.08em}
+.colorWord{font-size:1.25rem;font-weight:1000;display:block}
+.fakeCursor{position:absolute;width:34px;height:34px;border-radius:50%;border:3px solid #5568ff;background:#fff;box-shadow:0 4px 12px #5568ff26;pointer-events:none;z-index:8}
+.stagePanel{padding:22px;border:1px solid var(--line);border-radius:17px;background:#fff}
+.badgeGood{display:inline-block;color:var(--green);font-weight:950}
+.gameWin{display:none;position:absolute;inset:0;background:rgba(248,250,253,.94);z-index:30;place-items:center;padding:20px}
+.winCard{width:min(700px,94vw);padding:40px 24px;text-align:center;background:#fff;border:1px solid var(--line);border-radius:27px;box-shadow:0 30px 85px rgba(35,50,81,.18)}
+.winEmoji{font-size:4.8rem}.winCard h2{font-size:2.6rem;letter-spacing:-.06em;margin:9px 0 4px}.winCard p{color:var(--muted);line-height:1.65}
+.toast{position:fixed;right:18px;bottom:18px;z-index:100;padding:12px 15px;border:1px solid var(--line);background:#fff;border-radius:13px;box-shadow:var(--shadow);transform:translateY(18px);opacity:0;transition:.2s}.toast.show{transform:none;opacity:1}
+.conf{position:fixed;top:-20px;width:9px;height:14px;border-radius:2px;z-index:200;pointer-events:none;animation:fall 1.7s linear forwards}@keyframes fall{to{transform:translate3d(var(--x),110vh,0) rotate(720deg);opacity:0}}
+.shake{animation:shake .25s}@keyframes shake{20%{transform:translateX(-4px)}40%{transform:translateX(5px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+@media(max-width:650px){.hud{height:76px;padding:10px 12px}.tip{display:none}.bar{width:110px}#board{top:94px;left:10px;right:10px;bottom:10px}.options{grid-template-columns:1fr}.memoryGrid{grid-template-columns:repeat(4,58px)}.memoryCell{height:58px}.twoCol{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<div class="top"><div class="brand"><i>⚡</i>BloxNex</div><div class="topright"><span id="scoreTop">0 pts</span><button class="tiny" id="soundBtn">🔊</button><button class="tiny" id="resetBtn">↻</button></div></div>
-<div id="game">
-<section id="intro" class="screen intro on"><div class="introCard"><div class="kicker">⚠️ ADVERTENCIA: ESTE JUEGO NO SE TOMA EN SERIO</div><h1><span class="grad">EL JUEGO MÁS<br>TROLL DEL MUNDO</span></h1><p class="sub">Bienvenido a BloxNex. Aquí los botones mienten, las ventanas se multiplican, las pistas te trolean y cualquier cosa puede pasar. Hay <b>45+ niveles</b> y casi ninguno se juega igual.</p><button class="big" id="startBtn">🚀 COMENZAR EL CAOS</button><div class="legal">Consejo: mueve el mouse, prueba cosas raras y desconfía de TODO.</div></div></section>
-<section id="play" class="screen"><div class="hud"><div class="hudLeft"><span class="lvl" id="levelLabel">Nivel 1</span><div class="bar"><div id="barFill"></div></div></div><div class="hintTop" id="topHint">Consejo: no confíes en ningún botón.</div></div><div id="board"><div class="message"><h2 id="title"></h2><p id="desc"></p></div><div id="stage" class="stage"></div><div id="win" class="gameWin"><div class="winCard"><div class="emoji" id="winEmoji">😈</div><h2 id="winTitle">Nivel superado</h2><p id="winText"></p><button class="big" id="nextBtn">Siguiente →</button></div></div></div></section>
-</div><div class="toast" id="toast"></div>
-<script>
-const LEVELS = [{"type": "evade", "icon": "😛", "title": "ATRAPA EL BOTÓN", "desc": "El botón de CONTINUAR es tímido. Atrápalo sin rendirte.", "mode": "continue"}, {"type": "computer", "icon": "💻", "title": "TE ESTÁN HACKEANDO", "desc": "Hay una ventana sospechosa. Ciérrala antes de que sea tarde.", "mode": "hack"}, {"type": "riddle", "icon": "🧠", "title": "ADIVINA O PIERDE", "desc": "Algo tiene teclas pero no abre cerraduras. ¿Qué es?", "mode": "keyboard"}, {"type": "fake", "icon": "👀", "title": "NO TOQUES ESE BOTÓN", "desc": "Bueno... técnicamente sí tienes que tocarlo. ¿O no?", "mode": "danger"}, {"type": "color", "icon": "🎨", "title": "EL COLOR MIENTE", "desc": "Pulsa la palabra que diga el texto, NO el color.", "mode": "color"}, {"type": "computer2", "icon": "🖥️", "title": "ACTUALIZACIÓN URGENTE", "desc": "Una ventana dice que todo está bien. ¿Le crees?", "mode": "update"}, {"type": "memory", "icon": "🧩", "title": "MEMORIA EXPRESS", "desc": "Recuerda la secuencia antes de que desaparezca.", "mode": "memory"}, {"type": "mouse", "icon": "🖱️", "title": "NO DEJES QUE ESCAPE", "desc": "Persigue el puntito rebelde por la pantalla.", "mode": "target"}, {"type": "fake", "icon": "🚨", "title": "¡ALARMA!", "desc": "Pulsa SILENCIAR... o eso parece.", "mode": "alarm"}, {"type": "guess", "icon": "❓", "title": "ADIVINA EL NÚMERO", "desc": "Tengo un número del 1 al 9. Buena suerte.", "mode": "number"}, {"type": "computer", "icon": "📁", "title": "ARCHIVO CONFIDENCIAL", "desc": "Abre el archivo correcto. Los otros son sospechosamente sospechosos.", "mode": "files"}, {"type": "reverse", "icon": "🔄", "title": "TODO AL REVÉS", "desc": "El botón dice NO pulsar. Ya sabes qué hacer.", "mode": "reverse"}, {"type": "speed", "icon": "⚡", "title": "VELOCIDAD PURA", "desc": "Pulsa 5 objetivos antes de que cambien.", "mode": "speed"}, {"type": "fake", "icon": "🍪", "title": "ACEPTA LAS COOKIES", "desc": "Pero hay un problema: todas las opciones parecen iguales.", "mode": "cookies"}, {"type": "riddle", "icon": "🤔", "title": "PISTA TRAMPOSA", "desc": "Cuanto más le quitas, más grande se vuelve. ¿Qué es?", "mode": "hole"}, {"type": "computer2", "icon": "⌨️", "title": "TECLADO POSEÍDO", "desc": "Pulsa la tecla que te pida... si aparece.", "mode": "key"}, {"type": "evade", "icon": "🏃", "title": "OTRA VEZ NO", "desc": "Ahora el botón corre más rápido y se ríe de ti.", "mode": "continue2"}, {"type": "fake", "icon": "📺", "title": "PANTALLA AZUL", "desc": "Dice ERROR FATAL. Curiosamente hay un botón muy tranquilo.", "mode": "blue"}, {"type": "find", "icon": "🔎", "title": "ENCUENTRA AL INTRUSO", "desc": "Uno de estos emojis no pertenece al grupo.", "mode": "intruder"}, {"type": "timer", "icon": "⏳", "title": "NO MIRES EL TIEMPO", "desc": "Pulsa continuar cuando el contador llegue a cero. Sin hacer trampas.", "mode": "timer"}, {"type": "computer", "icon": "🗂️", "title": "CIERRA LA VENTANA", "desc": "Cierras una... aparece otra. ¿Cuántas más habrá?", "mode": "windows"}, {"type": "riddle", "icon": "🧠", "title": "ADIVINANZA EXPRESS", "desc": "Tiene agujas y no cose. ¿Qué es?", "mode": "clock"}, {"type": "fake", "icon": "🎁", "title": "REGALO GRATIS", "desc": "¿Seguro que quieres abrir una caja que dice MUY GRATIS?", "mode": "gift"}, {"type": "buttons", "icon": "🔘", "title": "UNO DE ESTOS FUNCIONA", "desc": "Cuatro botones idénticos. Solo uno sirve.", "mode": "one"}, {"type": "color", "icon": "🌈", "title": "¿ROJO O VERDE?", "desc": "La pista de arriba probablemente está mintiendo.", "mode": "green"}, {"type": "mouse", "icon": "🎯", "title": "MICRO-TARGET", "desc": "Haz clic exactamente en el pequeño punto.", "mode": "micro"}, {"type": "computer2", "icon": "💾", "title": "BORRADO INMINENTE", "desc": "No dejes que el porcentaje llegue a 100%.", "mode": "delete"}, {"type": "memory", "icon": "🧠", "title": "MEMORIA 2.0", "desc": "Esta vez son más símbolos y menos tiempo.", "mode": "memory2"}, {"type": "fake", "icon": "📜", "title": "TÉRMINOS Y CONDICIONES", "desc": "Nadie lee esto. El juego se aprovecha de eso.", "mode": "terms"}, {"type": "riddle", "icon": "🕵️", "title": "¿QUÉ SOY?", "desc": "Tengo ciudades pero no casas, ríos pero no agua. ¿Qué soy?", "mode": "map"}, {"type": "evade", "icon": "👅", "title": "NUNCA ME ATRAPARÁS", "desc": "El botón ahora tiene lengua. Sí, literalmente.", "mode": "tongue"}, {"type": "computer", "icon": "🪟", "title": "12 VENTANAS", "desc": "Cada vez que cierras una, aparece otra. Encuentra la trampa.", "mode": "manywindows"}, {"type": "speed", "icon": "💨", "title": "REFLEJOS", "desc": "Haz clic cuando el círculo sea pequeño.", "mode": "reflex"}, {"type": "fake", "icon": "📞", "title": "LLAMADA ENTRANTE", "desc": "No deberías contestar. Obviamente vas a querer hacerlo.", "mode": "call"}, {"type": "guess", "icon": "🔢", "title": "CÓDIGO SECRETO", "desc": "Un código de tres cifras está escondido a plena vista.", "mode": "code"}, {"type": "find", "icon": "🧭", "title": "SIGUE LA FLECHA", "desc": "La flecha correcta cambia de sitio cada segundo.", "mode": "arrow"}, {"type": "reverse", "icon": "🙃", "title": "MODO INVERTIDO", "desc": "Tu cerebro tendrá que leer la instrucción al revés.", "mode": "upside"}, {"type": "computer2", "icon": "🔐", "title": "CONTRASEÑA IMPOSIBLE", "desc": "La pista está escondida en la interfaz.", "mode": "password"}, {"type": "fake", "icon": "😈", "title": "BOTÓN MUY NORMAL", "desc": "No tiene absolutamente nada de raro. Probablemente.", "mode": "normal"}, {"type": "riddle", "icon": "💡", "title": "ÚLTIMA ADIVINANZA", "desc": "Me puedes romper sin tocarme. ¿Qué soy?", "mode": "promise"}, {"type": "mouse", "icon": "🫥", "title": "CASI LO TIENES", "desc": "El objetivo se vuelve transparente cuando te acercas.", "mode": "ghost"}, {"type": "memory", "icon": "🟪", "title": "MEMORIA FINAL", "desc": "Una secuencia corta. Un montón de presión.", "mode": "memory3"}, {"type": "computer", "icon": "⚠️", "title": "EL ESCRITORIO", "desc": "Hay una app falsa, una app falsa falsa y una muy falsa. Escoge.", "mode": "desktop"}, {"type": "fake", "icon": "🧨", "title": "ÚLTIMA TRAMPA", "desc": "Este botón hace exactamente lo que dice... probablemente.", "mode": "lasttrap"}, {"type": "speed", "icon": "🏁", "title": "SPRINT FINAL", "desc": "Tres objetivos, un caos total.", "mode": "sprint"}, {"type": "riddle", "icon": "🧩", "title": "EL ÚLTIMO ACERTIJO", "desc": "Si me nombras, desaparezco. ¿Qué soy?", "mode": "silence"}, {"type": "final", "icon": "🎉", "title": "¡LO LOGRASTE!", "desc": "Más de 40 niveles. Sobreviviste al troll.", "mode": "finish"}];
-let current=0,points=0,muted=false,audio=null,tickTimer=null,cleanupFn=null,levelDone=false;
+<header class="top">
+  <div class="brand"><span class="logo">⚡</span>BloxNex</div>
+  <div class="topRight">
+    <span id="scoreTop">0 pts</span>
+    <button class="topBtn" id="soundBtn" title="Sonido">🔊</button>
+    <button class="topBtn" id="resetBtn" title="Reiniciar">↻</button>
+  </div>
+</header>
 
-const $=id=>document.getElementById(id), stage=$("stage"), board=$("board"), toast=$("toast");
-function audioReady(){if(!audio)audio=new(window.AudioContext||window.webkitAudioContext)();if(audio.state==="suspended")audio.resume()}
-function tone(ok=true){if(muted)return;audioReady();const o=audio.createOscillator(),g=audio.createGain(),n=audio.currentTime;o.type=ok?"sine":"square";o.frequency.setValueAtTime(ok?620:170,n);o.frequency.exponentialRampToValueAtTime(ok?900:110,n+(ok?.13:.17));g.gain.setValueAtTime(.0001,n);g.gain.exponentialRampToValueAtTime(.06,n+.01);g.gain.exponentialRampToValueAtTime(.0001,n+.16);o.connect(g).connect(audio.destination);o.start(n);o.stop(n+.18)}
-function showToast(t,bad=false){toast.textContent=t;toast.classList.add("show");clearTimeout(window.tt);window.tt=setTimeout(()=>toast.classList.remove("show"),1400);if(bad){document.body.classList.add("shake");setTimeout(()=>document.body.classList.remove("shake"),300)}}
-function confetti(n=25){for(let i=0;i<n;i++){let c=document.createElement("div");c.className="conf";c.style.left=Math.random()*100+"vw";c.style.background=`hsl(${Math.random()*360} 90% 65%)`;c.style.setProperty("--x",(Math.random()*260-130)+"px");c.style.animationDelay=Math.random()*.35+"s";document.body.appendChild(c);setTimeout(()=>c.remove(),2200)}}
-function clearStage(){if(cleanupFn){try{cleanupFn()}catch(e){}}cleanupFn=null;clearTimeout(window.sequenceTimer);clearInterval(tickTimer);stage.innerHTML="";$("win").style.display="none";levelDone=false}
-function finish(text="Nivel superado",emoji="😈"){if(levelDone)return;levelDone=true;tone(true);$("winEmoji").textContent=emoji;$("winTitle").textContent=text;$("winText").textContent=`+${50+(current*3)} puntos. No te confíes: el siguiente nivel probablemente será peor.`;$("win").style.display="grid";points+=50+(current*3);$("scoreTop").textContent=points+" pts";if(current===LEVELS.length-1){$("nextBtn").textContent="🎉 Volver a jugar";confetti(50)}}
-function fail(t="JAJA 😈 Esa no era."){tone(false);showToast(t,true)}
-function button(text,fn,cls="action"){const b=document.createElement("button");b.className=cls;b.textContent=text;b.onclick=fn;return b}
-function randPos(el,pad=25){const r=board.getBoundingClientRect(),w=el.offsetWidth,h=el.offsetHeight;el.style.left=(pad+Math.random()*Math.max(5,r.width-w-pad*2))+"px";el.style.top=(90+Math.random()*Math.max(5,r.height-h-115))+"px"}
-function render(){clearStage();const L=LEVELS[current];$("levelLabel").textContent=`Nivel ${current+1} / ${LEVELS.length}`;$("barFill").style.width=(current/(LEVELS.length-1)*100)+"%";$("title").textContent=`${L.icon} ${L.title}`;$("desc").textContent=L.desc;$("topHint").textContent=current%4===0?"Consejo: desconfía de todo.":current%4===1?"Consejo: prueba movimientos raros.":current%4===2?"Consejo: el juego quiere que te apresures.":"Consejo: pensar diferente ayuda.";const f=MODES[L.type]||MODES.fake;f(L.mode)}
-function next(){if(current===LEVELS.length-1){current=0;points=0;$("scoreTop").textContent="0 pts";$("win").style.display="none";render();return}current++;render()}
-$("startBtn").onclick=()=>{audioReady();startMusic();$("intro").classList.remove("on");$("play").classList.add("on");render()};
-$("nextBtn").onclick=next;$("resetBtn").onclick=()=>{current=0;points=0;$("scoreTop").textContent="0 pts";if($("play").classList.contains("on"))render()};$("soundBtn").onclick=()=>{muted=!muted;$("soundBtn").textContent=muted?"🔇":"🔊";if(!muted)audioReady()};
+<div id="app">
+<section id="intro" class="screen intro active">
+  <div class="introCard">
+    <div class="kicker">⚠️ ADVERTENCIA: ESTE JUEGO ES MUY TROLL</div>
+    <h1><span class="grad">EL JUEGO MÁS<br>TROLL DEL MUNDO</span></h1>
+    <p class="sub">Bienvenido a BloxNex. Aquí los botones huyen, las ventanas aparecen, las instrucciones engañan y cada nivel intenta hacerte caer en una trampa diferente. Hay <b>47 niveles</b> y casi ninguno se juega igual.</p>
+    <button class="primary" id="startBtn">🚀 COMENZAR A JUGAR</button>
+    <div class="note">Consejo: mueve el mouse, lee todo y sospecha hasta de la opción más obvia.</div>
+  </div>
+</section>
+
+<section id="play" class="screen">
+  <div class="hud">
+    <div class="hudLeft"><span class="level" id="levelText">Nivel 1 / 47</span><div class="bar"><div id="bar"></div></div></div>
+    <div class="tip" id="tip">Consejo: desconfía de todo.</div>
+  </div>
+  <div id="board">
+    <div class="message"><h2 id="title"></h2><p id="desc"></p></div>
+    <div id="stage" class="stage"></div>
+    <div id="win" class="gameWin">
+      <div class="winCard">
+        <div id="winEmoji" class="winEmoji">😈</div>
+        <h2 id="winTitle">Nivel superado</h2>
+        <p id="winText"></p>
+        <button class="primary" id="nextBtn">Siguiente →</button>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+<div id="toast" class="toast"></div>
+
+<script>
+const LEVELS = [{"type": "evade", "icon": "😛", "title": "ATRAPA EL BOTÓN", "desc": "El botón sabe que vienes. Acércate con cuidado.", "mode": "first"}, {"type": "computer", "icon": "💻", "title": "TE ESTÁN HACKEANDO", "desc": "Cierra la ventana... pero no te fíes de la primera.", "mode": "hack"}, {"type": "riddle", "icon": "🧠", "title": "ADIVINA O PIERDE", "desc": "Tiene teclas, pero no abre cerraduras. ¿Qué es?", "mode": "keyboard"}, {"type": "fake", "icon": "😈", "title": "NO TOQUES ESE BOTÓN", "desc": "La solución está exactamente donde el juego dice que no mires.", "mode": "danger"}, {"type": "color", "icon": "🎨", "title": "EL COLOR MIENTE", "desc": "Pulsa la PALABRA correcta, no el color que tenga.", "mode": "color"}, {"type": "computer", "icon": "🖥️", "title": "ACTUALIZACIÓN URGENTE", "desc": "Haz la actualización. Después descubre por qué era una mala idea.", "mode": "update"}, {"type": "memory", "icon": "🧩", "title": "MEMORIA EXPRESS", "desc": "Memoriza la secuencia. Después las casillas se vuelven pulsables.", "mode": "memory1"}, {"type": "target", "icon": "🎯", "title": "NO DEJES QUE ESCAPE", "desc": "Atrápalo cinco veces y cada vez tendrá menos paciencia.", "mode": "target1"}, {"type": "fake", "icon": "🚨", "title": "ALARMA", "desc": "Silenciar parece demasiado fácil. Exactamente por eso.", "mode": "alarm"}, {"type": "number", "icon": "🔢", "title": "ADIVINA EL NÚMERO", "desc": "Tienes una sola pista. El resto es suerte... más o menos.", "mode": "number"}, {"type": "computer", "icon": "📁", "title": "ARCHIVO CONFIDENCIAL", "desc": "Uno es una trampa, uno es aburrido y uno es el correcto.", "mode": "files"}, {"type": "reverse", "icon": "🔄", "title": "TODO AL REVÉS", "desc": "La instrucción está invertida. Tu cerebro también tendrá que estarlo.", "mode": "reverse"}, {"type": "speed", "icon": "⚡", "title": "VELOCIDAD PURA", "desc": "Cinco objetivos. Cada uno dura menos tiempo.", "mode": "speed"}, {"type": "cookies", "icon": "🍪", "title": "ACEPTA LAS COOKIES", "desc": "Todas dicen prácticamente lo mismo. Hay una que no.", "mode": "cookies"}, {"type": "riddle", "icon": "🤔", "title": "PISTA TRAMPOSA", "desc": "Cuanto más le quitas, más grande se vuelve.", "mode": "hole"}, {"type": "keyboard", "icon": "⌨️", "title": "TECLADO POSEÍDO", "desc": "Pulsa las teclas en el orden correcto. No hay pistas extra.", "mode": "keycombo"}, {"type": "evade", "icon": "🏃", "title": "OTRA VEZ NO", "desc": "Este botón ya aprendió tus movimientos.", "mode": "fast"}, {"type": "fake", "icon": "📺", "title": "PANTALLA AZUL", "desc": "Una pantalla de error te está mirando. Busca el detalle raro.", "mode": "blue"}, {"type": "find", "icon": "🔎", "title": "ENCUENTRA AL INTRUSO", "desc": "Solo uno no pertenece. Y cambia de lugar si tardas mucho.", "mode": "intruder"}, {"type": "timer", "icon": "⏳", "title": "NO MIRES EL TIEMPO", "desc": "Espera... pero el botón falso aparecerá antes.", "mode": "wait"}, {"type": "computer", "icon": "🪟", "title": "CIERRA LA VENTANA", "desc": "Cierras una y aparece otra. Después otra. Después otra.", "mode": "windows"}, {"type": "riddle", "icon": "⏰", "title": "ADIVINANZA EXPRESS", "desc": "Tiene agujas y no cose.", "mode": "clock"}, {"type": "fake", "icon": "🎁", "title": "REGALO GRATIS", "desc": "La caja más llamativa es la menos confiable.", "mode": "gift"}, {"type": "buttons", "icon": "🔘", "title": "UNO DE ESTOS FUNCIONA", "desc": "Cuatro parecen iguales. No todos lo son por dentro.", "mode": "one"}, {"type": "color", "icon": "🌈", "title": "¿ROJO O VERDE?", "desc": "La palabra manda. El color intenta confundirte.", "mode": "green"}, {"type": "target", "icon": "🔵", "title": "MICRO-TARGET", "desc": "Ahora el objetivo es diminuto. Cinco veces.", "mode": "micro"}, {"type": "computer", "icon": "💾", "title": "BORRADO INMINENTE", "desc": "Detén el proceso. El botón correcto se mueve.", "mode": "delete"}, {"type": "memory", "icon": "🧠", "title": "MEMORIA 2.0", "desc": "Más casillas, secuencia más larga y una falsa pista.", "mode": "memory2"}, {"type": "fake", "icon": "📜", "title": "TÉRMINOS Y CONDICIONES", "desc": "Una opción está escrita distinto. Esa importa.", "mode": "terms"}, {"type": "riddle", "icon": "🗺️", "title": "¿QUÉ SOY?", "desc": "Tengo ciudades, pero no casas; ríos, pero no agua.", "mode": "map"}, {"type": "evade", "icon": "👅", "title": "NUNCA ME ATRAPARÁS", "desc": "Ahora el botón tiene cara, se ríe y saca la lengua.", "mode": "tongue"}, {"type": "computer", "icon": "🪟", "title": "DOCE VENTANAS", "desc": "Las ventanas tienen un patrón. Encuéntralo.", "mode": "many"}, {"type": "speed", "icon": "💨", "title": "REFLEJOS", "desc": "El objetivo cambia de tamaño y posición.", "mode": "reflex"}, {"type": "fake", "icon": "📞", "title": "LLAMADA ENTRANTE", "desc": "No contestes al primer teléfono. El segundo sí importa.", "mode": "call"}, {"type": "number", "icon": "🔐", "title": "CÓDIGO SECRETO", "desc": "El código está en la pantalla, pero está disfrazado.", "mode": "code"}, {"type": "find", "icon": "🧭", "title": "SIGUE LA FLECHA", "desc": "La flecha correcta se mueve justo cuando no la miras.", "mode": "arrow"}, {"type": "reverse", "icon": "🙃", "title": "MODO INVERTIDO", "desc": "La pantalla está al revés y el botón también.", "mode": "upside"}, {"type": "password", "icon": "🔑", "title": "CONTRASEÑA IMPOSIBLE", "desc": "Pista: mira cuántas veces aparece la palabra TROLL.", "mode": "pass"}, {"type": "fake", "icon": "😇", "title": "BOTÓN MUY NORMAL", "desc": "El botón más aburrido del mundo tiene un secreto.", "mode": "normal"}, {"type": "riddle", "icon": "💡", "title": "ÚLTIMA ADIVINANZA", "desc": "Me puedes romper sin tocarme.", "mode": "promise"}, {"type": "target", "icon": "🫥", "title": "CASI LO TIENES", "desc": "Cuando te acercas, desaparezco. Cuando te alejas, vuelvo.", "mode": "ghost"}, {"type": "memory", "icon": "🟪", "title": "MEMORIA FINAL", "desc": "La secuencia se muestra más rápido esta vez.", "mode": "memory3"}, {"type": "computer", "icon": "🖥️", "title": "EL ESCRITORIO", "desc": "Hay cinco aplicaciones. Solo una no es un troll.", "mode": "desktop"}, {"type": "fake", "icon": "🧨", "title": "ÚLTIMA TRAMPA", "desc": "Esta vez la opción incorrecta parece la correcta.", "mode": "last"}, {"type": "speed", "icon": "🏁", "title": "SPRINT FINAL", "desc": "Tres objetivos, muy poco espacio y casi nada de tiempo.", "mode": "sprint"}, {"type": "riddle", "icon": "🤫", "title": "EL ÚLTIMO ACERTIJO", "desc": "Si me nombras, desaparezco.", "mode": "silence"}, {"type": "final", "icon": "🎉", "title": "¡LO LOGRASTE!", "desc": "Llegaste al final del caos.", "mode": "finish"}];
+const $=id=>document.getElementById(id);
+const stage=$("stage"),board=$("board");
+let current=0,score=0,muted=false,audioCtx=null,cleanUp=()=>{},levelDone=false,timerId=null;
+
+function audioOn(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==="suspended")audioCtx.resume()}
+function beep(type="click"){
+  if(muted)return;audioOn();
+  const o=audioCtx.createOscillator(),g=audioCtx.createGain(),t=audioCtx.currentTime;
+  const f=type==="good"?[520,820]:type==="bad"?[160,105]:type==="win"?[360,720]:[240,300];
+  o.type=type==="bad"?"square":"sine";o.frequency.setValueAtTime(f[0],t);o.frequency.exponentialRampToValueAtTime(f[1],t+.12);
+  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(type==="click"?.025:.05,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+.17);
+  o.connect(g).connect(audioCtx.destination);o.start(t);o.stop(t+.19);
+}
+function startMusic(){
+  if(muted||window._music)return;audioOn();window._music=true;
+  let step=0,section=0;
+  const sections=[
+    {tempo:128,chord:[261.63,329.63,392],mel:[523.25,587.33,659.25,587.33,523.25,493.88,440,493.88]},
+    {tempo:118,chord:[293.66,369.99,440],mel:[587.33,659.25,739.99,659.25,587.33,554.37,493.88,554.37]},
+    {tempo:134,chord:[329.63,415.30,493.88],mel:[659.25,739.99,830.61,739.99,659.25,622.25,554.37,622.25]}
+  ];
+  function note(freq,dur,vol,type,delay=0){
+    const n=audioCtx.currentTime+delay,o=audioCtx.createOscillator(),g=audioCtx.createGain();
+    o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(.0001,n);g.gain.exponentialRampToValueAtTime(vol,n+.015);g.gain.exponentialRampToValueAtTime(.0001,n+dur);
+    o.connect(g).connect(audioCtx.destination);o.start(n);o.stop(n+dur+.03)
+  }
+  function bar(){
+    if(muted)return;
+    const s=sections[section%sections.length],beat=60/s.tempo;
+    for(let i=0;i<4;i++){note(90,.10,.028,"sine",i*beat);if(i===1||i===3)note(180,.07,.014,"square",i*beat+beat/2)}
+    for(let i=0;i<8;i++){note(s.mel[(i+step)%s.mel.length],.15,.013,"triangle",i*beat/2)}
+    s.chord.forEach((f,i)=>note(f/2,.42,.008,"sine",i*.025));
+    step+=3;section++;
+  }
+  bar();window._musicTimer=setInterval(bar, 8*60/sections[section%3].tempo);
+}
+function toast(t,bad=false){
+  const el=$("toast");el.textContent=t;el.classList.add("show");clearTimeout(window.tt);window.tt=setTimeout(()=>el.classList.remove("show"),1500);
+  if(bad){document.body.classList.add("shake");setTimeout(()=>document.body.classList.remove("shake"),260)}
+}
+document.addEventListener("click",e=>{if(e.target.matches("button"))beep("click")});
+
+function clearLevel(){try{cleanUp()}catch(e){}cleanUp=()=>{};clearInterval(timerId);clearTimeout(timerId);stage.innerHTML="";$("win").style.display="none";levelDone=false}
+function moveEl(el,pad=20){
+  const r=board.getBoundingClientRect(),w=el.offsetWidth,h=el.offsetHeight;
+  el.style.left=(pad+Math.random()*Math.max(5,r.width-w-pad*2))+"px";
+  el.style.top=(98+Math.random()*Math.max(5,r.height-h-125))+"px";
+}
+function win(title,emoji="😈",text=""){
+  if(levelDone)return;levelDone=true;beep("win");score+=50+current*3;$("scoreTop").textContent=score+" pts";
+  $("winEmoji").textContent=emoji;$("winTitle").textContent=title;$("winText").textContent=text||`+${50+current*3} puntos. No te relajes: el siguiente nivel te está esperando.`;
+  $("nextBtn").textContent=current===LEVELS.length-1?"🎉 Volver a jugar":"Siguiente →";$("win").style.display="grid";
+  if(current===LEVELS.length-1)confetti(80)
+}
+function fail(text="😈 Esa no era."){beep("bad");toast(text,true)}
+function confetti(n=30){
+  for(let i=0;i<n;i++){const c=document.createElement("div");c.className="conf";c.style.left=Math.random()*100+"vw";c.style.background=`hsl(${Math.random()*360} 88% 62%)`;c.style.setProperty("--x",(Math.random()*260-130)+"px");c.style.animationDelay=Math.random()*.3+"s";document.body.appendChild(c);setTimeout(()=>c.remove(),2200)}
+}
+function btn(text,fn,cls="action"){const b=document.createElement("button");b.className=cls;b.textContent=text;b.onclick=fn;return b}
 
 const MODES={
 evade(mode){
-  const b=button("😛 CONTINUAR",()=>finish("¡LO ATRAPASTE!","😛"),"troll");stage.appendChild(b);randPos(b,35);
-  let moves=0;
-  const dodge=e=>{if(levelDone)return;const r=board.getBoundingClientRect(),dx=e.clientX-r.left,dy=e.clientY-r.top;br=board.getBoundingClientRect();if(dx>0&&dx<r.width&&dy>0&&dy<r.height){const bR=b.getBoundingClientRect();if(e.clientX>bR.left-90&&e.clientX<bR.right+90&&e.clientY>bR.top-75&&e.clientY<bR.bottom+75){moves++;b.textContent=moves>4?"😛 JAJA, CASI":"😛 NUNCA ME ATRAPARÁS";randPos(b,moves>6?18:35);if(moves%3===0)showToast("👅 ¡TE VIO VENIR!")}}};
-  document.addEventListener("mousemove",dodge);cleanupFn=()=>document.removeEventListener("mousemove",dodge);
+  const b=btn("😛 CONTINUAR",()=>win("¡ATRAPASTE AL TROLL!","😛","Sí, el botón estaba huyendo de ti."),"troll");stage.appendChild(b);moveEl(b,30);
+  let moves=0,last=0;
+  const onMove=e=>{
+    if(levelDone)return;
+    const r=b.getBoundingClientRect(),near=e.clientX>r.left-110&&e.clientX<r.right+110&&e.clientY>r.top-80&&e.clientY<r.bottom+80;
+    if(near&&performance.now()-last>120){last=performance.now();moves++;b.textContent=moves>7?"😳 ¿PERO CÓMO?":"😛 NUNCA ME ATRAPARÁS";moveEl(b,moves>8?8:28);if(moves%3===0)toast("👅 ¡Te vio venir!")}
+  };
+  board.addEventListener("pointermove",onMove);cleanUp=()=>board.removeEventListener("pointermove",onMove)
 },
 computer(mode){
-  const win=document.createElement("div");win.className="desktop";stage.appendChild(win);
-  const renderWin=()=>{win.innerHTML='<div class="winbar"><span>🖥️ BloxNex OS</span><span class="dots"><i></i><i></i><i></i></span></div><div class="windowContent"></div>';const c=win.querySelector(".windowContent");
-    if(mode==="hack")c.innerHTML='<div class="fakeError"><h3>⚠️ ¡TE ESTÁN HACKEANDO!</h3><p>Cierra esta ventana urgentemente.</p><button class="action" id="closeFake">✕ Cerrar</button></div>';
-    if(mode==="files")c.innerHTML='<div class="options"><button class="opt">🦠 virus.exe</button><button class="opt" id="goodFile">🖼️ vacaciones.png</button><button class="opt">📄 DO_NOT_OPEN.txt</button><button class="opt">💣 ok.exe</button></div>';
-    if(mode==="windows"||mode==="manywindows")c.innerHTML=`<div class="fakeError"><h3>🪟 VENTANA ${current+1}</h3><p>Ciérrame para continuar.</p><button class="action" id="closeFake">✕ Cerrar ventana</button></div>`;
-    if(mode==="desktop")c.innerHTML='<div class="options"><button class="opt">📁 Mis archivos</button><button class="opt">🧪 App totalmente normal</button><button class="opt" id="realApp">🕵️ App sospechosamente normal</button><button class="opt">🧹 Limpiador</button></div>';
-    const close=c.querySelector("#closeFake");if(close)close.onclick=()=>{win.remove();if(mode==="hack"){renderWin();stage.appendChild(win);showToast("😈 Pensaste que era tan fácil")}else renderWin()};
-    const good=c.querySelector("#goodFile");if(good)good.onclick=()=>finish("¡Encontraste el archivo bueno!","📁");
-    const real=c.querySelector("#realApp");if(real)real.onclick=()=>finish("¡DESCUBRISTE EL TRUCO!","🕵️");
-  };renderWin();
-},
-computer2(mode){
-  const win=document.createElement("div");win.className="desktop";stage.appendChild(win);
-  if(mode==="update"){win.innerHTML='<div class="winbar"><span>⚙️ Actualizador BloxNex</span></div><div class="windowContent"><div><h3>✅ Todo está perfectamente bien.</h3><p>Haz clic para actualizar.</p><button class="action" id="up">Actualizar</button></div></div>';win.querySelector("#up").onclick=()=>{showToast("💥 Mala idea.");win.innerHTML='<div class="windowContent"><div class="fakeError"><h2>ERROR</h2><p>La actualización actualizó la actualización.</p><button class="action" id="again">Cerrar</button></div></div>';win.querySelector("#again").onclick=()=>finish("Sobreviviste a la actualización","💻")}}
-  if(mode==="key"){win.innerHTML='<div class="winbar"><span>⌨️ Teclado</span></div><div class="windowContent"><h3>Presiona la tecla <b id="wanted"></b></h3></div>';const wanted=["A","K","Z","M"][Math.floor(Math.random()*4)];win.querySelector("#wanted").textContent=wanted;const fn=e=>{if(e.key.toUpperCase()===wanted){document.removeEventListener("keydown",fn);finish("¡Tecla correcta!","⌨️")}else showToast("❌ Esa no era",true)};document.addEventListener("keydown",fn);cleanupFn=()=>document.removeEventListener("keydown",fn)}
-  if(mode==="delete"){win.innerHTML='<div class="winbar"><span>🗑️ Sistema</span></div><div class="windowContent"><div><h3>Eliminando felicidad...</h3><div class="progressDanger"><div id="danger"></div></div><button class="action" id="stop" style="margin-top:15px">DETENER</button></div></div>';let p=0;tickTimer=setInterval(()=>{p+=Math.random()*14;win.querySelector("#danger").style.width=Math.min(100,p)+"%";if(p>=100){clearInterval(tickTimer);showToast("💀 Demasiado tarde");setTimeout(()=>finish("¿Quién dijo que había que ganar?","🗑️"),400)}},500);win.querySelector("#stop").onclick=()=>{clearInterval(tickTimer);finish("¡Lo detuviste justo a tiempo!","🛑")}}
-  if(mode==="password"){win.innerHTML='<div class="winbar"><span>🔐 Sistema seguro</span></div><div class="windowContent"><div><h3>Introduce la contraseña secreta</h3><p style="color:#9aa5bd">Pista: escribe TROLL en mayúsculas.</p><div class="codeBox"><input id="pass" placeholder="••••••"><button class="action" id="go">Entrar</button></div></div></div>';win.querySelector("#go").onclick=()=>win.querySelector("#pass").value.trim()==="TROLL"?finish("¿Cómo supiste la contraseña?","🔐"):fail("🔒 Contraseña incorrecta.")}}
+  const w=document.createElement("div");w.className="desktop";stage.appendChild(w);
+  const shell=(name,body)=>`<div class="windowBar"><span>${name}</span><span class="dots"><i></i><i></i><i></i></span></div><div class="windowContent">${body}</div>`;
+  function hack2(){w.innerHTML=shell("🪟 Ventana emergente",`<div class="alert"><h3>😈 Otra ventana.</h3><p>Cierra esta también.</p><button class="action" id="c">Cerrar</button></div>`);w.querySelector("#c").onclick=()=>win("Descubriste el truco","💻","No era un hackeo real. El nivel quería que cerraras dos ventanas.")}
+  if(mode==="hack"){w.innerHTML=shell("🖥️ BloxNex Security",`<div class="alert"><h3>⚠️ ¡TE ESTÁN HACKEANDO!</h3><p>Cierra esta ventana inmediatamente.</p><button class="action" id="c">✕ Cerrar ventana</button></div>`);w.querySelector("#c").onclick=()=>{w.remove();setTimeout(()=>{stage.appendChild(w);hack2()},120)}}
+  if(mode==="update"){w.innerHTML=shell("⚙️ Actualizador",`<div><h3>✅ Todo está perfectamente bien.</h3><p>Instalar actualización.</p><button class="action" id="u">Actualizar</button></div>`);w.querySelector("#u").onclick=()=>{w.innerHTML=shell("❌ Error",`<div class="alert"><h3>La actualización se actualizó.</h3><p>Eso no ayuda.</p><button class="action" id="c">Cerrar</button></div>`);w.querySelector("#c").onclick=()=>win("Sobreviviste a la actualización","🖥️")}
+  if(mode==="files"){w.innerHTML=shell("📁 Mis archivos",`<div class="options"><button class="option">🦠 virus.exe</button><button class="option" id="good">🖼️ vacaciones.png</button><button class="option">💣 ok.exe</button><button class="option">📄 NO_ABRIR.txt</button></div>`);w.querySelectorAll(".option").forEach(b=>b.onclick=()=>b.id==="good"?win("¡Archivo correcto!","📁"):fail("😈 Ese archivo no inspiraba confianza."))}
+  if(mode==="windows"||mode==="many"){let n=0;const show=()=>{n++;w.innerHTML=shell(`🪟 Ventana ${n}`,`<div class="alert"><h3>Ciérrame.</h3><p>${n<4?"Una más...":"Ya deberían ser suficientes."}</p><button class="action" id="c">Cerrar</button></div>`);w.querySelector("#c").onclick=()=>n>=5?win("¡Sobreviviste a las ventanas!","🪟"):show()};show()}
+  if(mode==="desktop"){w.innerHTML=shell("🖥️ Escritorio",`<div class="options"><button class="option">📁 Archivos</button><button class="option">🌐 Navegador</button><button class="option">🎵 Música</button><button class="option" id="odd">🕵️ App sospechosa</button></div>`);w.querySelectorAll(".option").forEach(b=>b.onclick=()=>b.id==="odd"?win("¡Encontraste la app troll!","🕵️"):fail("Esa aplicación era completamente normal."))}
+  if(mode==="delete"){
+    w.innerHTML=shell("🗑️ Sistema",`<div><h3>Eliminando felicidad...</h3><div class="progressDanger"><div id="danger"></div></div><button class="action" id="stop" style="margin-top:15px">DETENER</button></div>`);
+    let p=0;timerId=setInterval(()=>{p+=Math.random()*15;w.querySelector("#danger").style.width=Math.min(100,p)+"%";if(p>=100){clearInterval(timerId);win("Demasiado tarde...","💾","El juego te estaba troleando. Pero igual te dejó pasar.")}},420);
+    w.querySelector("#stop").onclick=()=>{clearInterval(timerId);win("¡Lo detuviste a tiempo!","🛑")}
+  }
 },
 riddle(mode){
-  const answers={keyboard:"Un teclado",hole:"Un agujero",clock:"Un reloj",map:"Un mapa",promise:"Una promesa",silence:"El silencio"};
-  const opts=mode==="keyboard"?["Un piano","Un teclado","Una puerta","Un mapa"]:mode==="hole"?["Una caja","Un agujero","Una nube","Un bolsillo"]:mode==="clock"?["Un reloj","Una aguja","Una flor","Un lápiz"]:mode==="map"?["Un mapa","Un espejo","Un libro","Una piscina"]:mode==="promise"?["Una promesa","Una pared","Una piedra","Una sombra"]:["El silencio","La música","Una canción","El ruido"];
-  const box=document.createElement("div");box.className="options";stage.appendChild(box);box.innerHTML=opts.map(x=>`<button class="opt">${x}</button>`).join("");box.querySelectorAll(".opt").forEach(x=>x.onclick=()=>x.textContent===answers[mode]?finish("¡Acertaste la adivinanza!","🧠"):fail("😈 Esa respuesta estaba demasiado obvia."));
+  const q={
+    keyboard:["Tiene teclas, pero no abre cerraduras.","Un teclado",["Un piano","Un teclado","Una puerta","Un mapa"]],
+    hole:["Cuanto más le quitas, más grande se vuelve.","Un agujero",["Una caja","Un agujero","Una nube","Una moneda"]],
+    clock:["Tiene agujas y no cose.","Un reloj",["Un reloj","Un cactus","Una brújula","Un lápiz"]],
+    map:["Tengo ciudades, pero no casas; ríos, pero no agua.","Un mapa",["Un espejo","Un mapa","Un libro","Una pantalla"]],
+    promise:["Me puedes romper sin tocarme.","Una promesa",["Una promesa","Una ventana","Una mesa","Una piedra"]],
+    silence:["Si me nombras, desaparezco.","El silencio",["El silencio","La música","La luz","El ruido"]]
+  }[mode];
+  stage.innerHTML=`<div style="width:min(720px,90%)"><div class="question">${q[0]}</div><div class="options">${q[2].map(x=>`<button class="option">${x}</button>`).join("")}</div></div>`;
+  stage.querySelectorAll(".option").forEach(b=>b.onclick=()=>b.textContent===q[1]?win("¡Adivinanza resuelta!","🧠"):fail("🤔 No. Esa parecía demasiado fácil."))
 },
 fake(mode){
-  const pairs={danger:["😈 CONTINUAR","😇 No continuar"],alarm:["🔇 SILENCIAR","🚨 NO SILENCIAR"],blue:["✅ Todo bien","💥 Reiniciar PC"],gift:["🎁 ABRIR REGALO","🚪 Alejarme"],terms:["✅ Acepto","❌ No acepto"],call:["📞 CONTESTAR","📵 Ignorar"],normal:["✅ Botón normal","🚫 Botón sospechoso"],lasttrap:["🏁 TERMINAR","💣 TOCAR EL BOTÓN PROHIBIDO"]};
-  const o=pairs[mode]||pairs.danger,box=document.createElement("div");box.className="options";stage.appendChild(box);box.innerHTML=o.map(x=>`<button class="opt">${x}</button>`).join("");
-  const [a,b]=box.querySelectorAll(".opt");a.onclick=()=>finish("😈 ¡Caíste en la opción obvia!","😂");b.onclick=()=>{showToast("😶 ¿En serio elegiste esa?");setTimeout(()=>finish("Correcto... sospechosamente correcto","🧠"),450)};
+  const pairs={
+    danger:["😈 TOCAR","😇 NO TOCAR"],alarm:["🔇 SILENCIAR","🚨 DEJAR SONANDO"],blue:["✅ Todo bien","💥 Reiniciar"],gift:["🎁 ABRIR REGALO","🚪 ALEJARME"],terms:["✅ ACEPTAR TODO","❌ RECHAZAR TODO"],call:["📞 CONTESTAR","📵 IGNORAR"],normal:["✅ BOTÓN NORMAL","🚫 BOTÓN SOSPECHOSO"],last:["🏁 TERMINAR","💣 BOTÓN PROHIBIDO"]
+  }[mode]||["😈 TOCAR","😇 NO TOCAR"];
+  const box=document.createElement("div");box.className="options";stage.appendChild(box);box.innerHTML=pairs.map(x=>`<button class="option">${x}</button>`).join("");
+  box.children[0].onclick=()=>{toast("😂 ¡Caíste exactamente donde quería!");setTimeout(()=>win("Era la trampa obvia","😈","El juego te conoce demasiado bien."),350)};
+  box.children[1].onclick=()=>win("Sospechaste del juego","🧠","A veces no hacer lo obvio funciona.")
 },
 color(mode){
-  const items=["ROJO","AZUL","VERDE","AMARILLO"],wanted=items[Math.floor(Math.random()*items.length)];
-  stage.insertAdjacentHTML("afterbegin",`<div style="margin-top:-190px;font-size:1.4rem;font-weight:900">Pulsa la palabra: <b>${wanted}</b></div>`);
-  const box=document.createElement("div");box.className="options";stage.appendChild(box);box.innerHTML=items.map(x=>`<button class="opt"><span style="color:${x==="ROJO"?"#ff596f":x==="AZUL"?"#35bfff":x==="VERDE"?"#48e38b":"#ffd35a"}">${x}</span></button>`).join("");box.querySelectorAll(".opt").forEach(x=>x.onclick=()=>x.textContent.trim()===wanted?finish("¡No te engañó el color!","🎨"):fail("🎨 Te fijaste en el color, no en la palabra."));
+  const colors=[
+    {name:"ROJO",hex:"#e95369"},{name:"AZUL",hex:"#4f6fff"},{name:"VERDE",hex:"#2fb875"},{name:"AMARILLO",hex:"#d8ae35"}
+  ];
+  const wanted=colors[Math.floor(Math.random()*colors.length)].name;
+  const shuffled=[...colors].sort(()=>Math.random()-.5);
+  stage.innerHTML=`<div style="width:min(760px,92%)"><div class="question">Pulsa la palabra <b>${wanted}</b>. El color no importa.</div><div class="options">${shuffled.map(c=>`<button class="option" data-word="${c.name}"><span class="colorWord" style="color:${c.hex}">${c.name}</span><small style="color:var(--muted)">el color es una trampa</small></button>`).join("")}</div></div>`;
+  stage.querySelectorAll(".option").forEach(b=>b.onclick=()=>b.dataset.word===wanted?win("¡Ganaste al color!","🎨","Esta vez sí: la palabra mandaba."):(fail("😵 Miraste el color en vez de la palabra.")))
 },
 memory(mode){
-  const len=mode==="memory"?4:mode==="memory2"?6:5,seq=Array.from({length:len},()=>Math.floor(Math.random()*8)),box=document.createElement("div");box.className="smallgrid";stage.appendChild(box);box.innerHTML=Array.from({length:8},()=>'<button class="memorycell">❔</button>').join("");
-  seq.forEach((n,i)=>setTimeout(()=>{box.children[n].textContent="🟣";setTimeout(()=>box.children[n].textContent="❔",260)},500+i*420));
-  setTimeout(()=>{let pos=0;box.querySelectorAll(".memorycell").forEach((b,i)=>b.onclick=()=>{if(i!==seq[pos]){fail("🧠 Memoria: BOOM.");pos=0;box.querySelectorAll(".memorycell").forEach(x=>x.textContent="❔");return}b.textContent="✅";pos++;if(pos===seq.length)finish("¡Memoria perfecta!","🧩")})},850+len*420);
+  const len=mode==="memory1"?4:mode==="memory2"?7:8,seq=Array.from({length:len},()=>Math.floor(Math.random()*8));
+  stage.innerHTML=`<div><div id="memoryStatus" class="memoryReady">👀 Memoriza... las casillas se activarán después.</div><div id="memoryGrid" class="memoryGrid"></div></div>`;
+  const grid=$("memoryGrid");
+  const cells=[];
+  for(let i=0;i<8;i++){const b=document.createElement("button");b.className="memoryCell";b.disabled=true;b.textContent="•";b.dataset.i=i;grid.appendChild(b);cells.push(b)}
+  const revealTime=mode==="memory3"?260:360;
+  seq.forEach((n,i)=>setTimeout(()=>{cells[n].textContent="★";cells[n].style.background="#eef1ff";setTimeout(()=>{cells[n].textContent="•";cells[n].style.background=""},revealTime)},550+i*revealTime));
+  const activate=550+len*revealTime+220;
+  setTimeout(()=>{
+    $("memoryStatus").textContent="✅ ¡LISTO! Ahora pulsa las casillas en el mismo orden.";
+    cells.forEach(c=>c.disabled=false);
+    let pos=0;
+    cells.forEach((b,i)=>b.onclick=()=>{
+      if(levelDone)return;
+      if(i!==seq[pos]){
+        fail("🧠 ¡No era esa! La secuencia vuelve a empezar.");
+        pos=0;cells.forEach(x=>{x.textContent="•";x.style.background=""});
+        toast("👀 Mira la secuencia otra vez: no se repetirá.");
+        seq.forEach((n,j)=>setTimeout(()=>{cells[n].textContent="★";cells[n].style.background="#eef1ff";setTimeout(()=>{cells[n].textContent="•";cells[n].style.background=""},revealTime)},400+j*revealTime));
+      }else{
+        b.textContent="✓";b.style.background="#e9f8f0";pos++;
+        if(pos===seq.length)win("¡MEMORIA PERFECTA!","🧩","Ahora sí quedaron pulsables. El nivel no estaba roto, estaba trolleándote 😭.");
+      }
+    });
+  },activate);
 },
-mouse(mode){
-  const t=document.createElement("div");t.className=mode==="ghost"?"target":"miniTarget";stage.appendChild(t);let clicks=0;
-  function move(){randPos(t,20)}move();t.onclick=()=>{clicks++;if(clicks>=(mode==="micro"?5:1))finish("¡LO ATRAPASTE!","🎯");else move()};cleanupFn=()=>t.remove();
+target(mode){
+  const micro=mode==="micro",ghost=mode==="ghost",total=micro||ghost?5:(mode==="reflex"?6:5);
+  const t=document.createElement("button");t.className=micro?"microTarget":"target";t.setAttribute("aria-label","objetivo");stage.appendChild(t);
+  let count=0;
+  function move(){moveEl(t,15);if(ghost){t.style.opacity=".35";setTimeout(()=>t.style.opacity="1",120)}}
+  move();
+  t.onclick=()=>{count++;if(count>=total)win("¡ATRAPADO!","🎯");else{toast(`${count}/${total}`);move()}};
+  cleanUp=()=>t.remove()
 },
-guess(mode){
-  if(mode==="code"){stage.innerHTML='<div style="text-align:center"><h3>🔢 El código secreto es 3-1-4</h3><p style="color:#9aa5bd">Escribe el código.</p><div class="codeBox"><input id="code" placeholder="314"><button class="action" id="go">Desbloquear</button></div></div>';stage.querySelector("#go").onclick=()=>stage.querySelector("#code").value.trim()==="314"?finish("¡Código desbloqueado!","🔢"):fail("Código incorrecto.");return}
-  const n=1+Math.floor(Math.random()*9);stage.innerHTML='<div style="text-align:center"><div style="font-size:1.3rem;margin-bottom:15px">Estoy pensando en un número del 1 al 9.</div><div class="options">'+[1,2,3,4,5,6,7,8,9].map(x=>`<button class="opt">${x}</button>`).join("")+"</div></div>";stage.querySelectorAll(".opt").forEach(x=>x.onclick=()=>Number(x.textContent)===n?finish("¡Lo adivinaste!","🔢"):fail("❌ Nope. Prueba otro."));
+number(mode){
+  if(mode==="code"){
+    stage.innerHTML='<div style="text-align:center"><div class="question">El código secreto está escrito como parte de la pantalla: <b>3 ✦ 1 ✦ 4</b></div><div class="codeRow"><input id="code" class="input" maxlength="3" placeholder="___"><button id="go" class="action">Desbloquear</button></div></div>';
+    $("go").onclick=()=>$("code").value==="314"?win("¡Código correcto!","🔐") : fail("🔒 Sigue mirando la pista.");
+  }else{
+    const n=1+Math.floor(Math.random()*9);
+    stage.innerHTML='<div style="width:min(720px,90%)"><div class="question">Elige un número del 1 al 9.</div><div class="options">'+[1,2,3,4,5,6,7,8,9].map(x=>`<button class="option">${x}</button>`).join("")+"</div></div>";
+    stage.querySelectorAll(".option").forEach(b=>b.onclick=()=>+b.textContent===n?win("¡Adivinaste!","🔢"):fail("Nope 😈. Vuelve a intentar."));
+  }
 },
-reverse(mode){
-  stage.innerHTML='<div style="text-align:center"><div style="font-size:2.2rem;transform:rotate(180deg)">.odanimreT</div><p style="color:#9aa5bd">Lee la instrucción con el cerebro al revés.</p></div>';setTimeout(()=>{const b=button("↕️ Hacer lo contrario",()=>finish("Tu cerebro sobrevivió","🙃"));stage.appendChild(b)},400);
+reverse(){
+  stage.innerHTML='<div style="text-align:center"><div style="font-size:2.1rem;transform:rotate(180deg)">ɹɐʇnoʇᴉuɔ</div><p style="color:var(--muted)">La solución es hacer lo contrario de lo que parece.</p></div>';
+  setTimeout(()=>stage.appendChild(btn("↕️ HACER LO CONTRARIO",()=>win("¡MODO INVERTIDO SUPERADO!","🙃"))),450)
 },
 speed(mode){
-  let n=0,total=mode==="sprint"?3:5;const b=document.createElement("div");b.className="target";stage.appendChild(b);const move=()=>randPos(b,25);move();b.onclick=()=>{n++;if(n>=total)finish("¡REFLEJOS DE ÉLITE!","⚡");else{showToast(`${n}/${total}`);move()}};cleanupFn=()=>b.remove();
+  const total=mode==="sprint"?3:5;let n=0;
+  const t=document.createElement("button");t.className="target";t.textContent="";stage.appendChild(t);
+  function move(){moveEl(t,14);if(n>0)t.style.transform=`scale(${Math.max(.62,1-n*.06)})`;}
+  move();
+  t.onclick=()=>{n++;if(n>=total)win("¡REFLEJOS DE ÉLITE!","⚡");else{toast(`${n}/${total}`);move()}};
+  cleanUp=()=>t.remove()
 },
 cookies(){
-  stage.innerHTML='<div style="width:min(630px,90%);padding:22px;border:1px solid #ffffff12;border-radius:18px;background:#11182a"><h3>🍪 Preferencias de cookies</h3><p style="color:#a3aec6">Todas las opciones parecen iguales. Una es la correcta por pura suerte.</p><div class="options"><button class="opt">Aceptar todas</button><button class="opt">Aceptar algunas</button><button class="opt">Rechazar</button><button class="opt">Personalizar</button></div></div>';
-  stage.querySelectorAll(".opt").forEach(b=>b.onclick=()=>Math.random()<.30?finish("¡Encontraste el botón afortunado!","🍪"):fail("🍪 Esa no era..."));
+  const labels=["Aceptar todas","Aceptar algunas","Rechazar","Personalizar"];
+  stage.innerHTML='<div class="stagePanel" style="width:min(680px,90%)"><h3>🍪 Preferencias de cookies</h3><p style="color:var(--muted)">Una de estas opciones tiene el botón correcto escondido. Ninguna te lo dirá.</p><div class="options">'+labels.map(x=>`<button class="option">${x}</button>`).join("")+"</div></div>";
+  stage.querySelectorAll(".option").forEach(b=>b.onclick=()=>Math.random()<.28?win("¡BOTÓN AFORTUNADO!","🍪"):fail("🍪 Ese no era..."))
 },
 find(mode){
-  if(mode==="arrow"){const t=document.createElement("div");t.className="target";t.textContent="➜";t.style.display="grid";t.style.placeItems="center";t.style.fontSize="1.7rem";stage.appendChild(t);const mv=()=>randPos(t,20);mv();const id=setInterval(mv,850);t.onclick=()=>{clearInterval(id);finish("¡Seguiste la flecha!","🧭")};cleanupFn=()=>clearInterval(id);return}
-  const arr=["🟦","🟦","🟦","🐙","🟦","🟦","🟦","🟦","🟦"];stage.innerHTML='<div class="smallgrid">'+arr.map(x=>`<button class="memorycell">${x}</button>`).join("")+"</div>";stage.querySelectorAll(".memorycell").forEach((b,i)=>b.onclick=()=>i===3?finish("¡Encontraste al intruso!","🔎"):fail("🔎 No, ese era del grupo."));
+  if(mode==="arrow"){
+    const t=document.createElement("button");t.className="target";t.textContent="➜";t.style.fontSize="1.55rem";t.style.display="grid";t.style.placeItems="center";stage.appendChild(t);
+    moveEl(t,15);const id=setInterval(()=>moveEl(t,15),700);t.onclick=()=>{clearInterval(id);win("¡Seguiste la flecha!","🧭")};cleanUp=()=>clearInterval(id);return
+  }
+  const arr=["🟦","🟦","🟦","🐙","🟦","🟦","🟦","🟦"];stage.innerHTML='<div><div class="question" style="text-align:center">Encuentra al diferente.</div><div class="memoryGrid">'+arr.map(x=>`<button class="memoryCell">${x}</button>`).join("")+'</div></div>';
+  stage.querySelectorAll(".memoryCell").forEach((b,i)=>b.onclick=()=>i===3?win("¡Intruso encontrado!","🔎"):fail("Ese era exactamente igual a los demás."))
 },
 timer(){
-  let n=4;stage.innerHTML=`<div><div class="clock" id="clock">${n}</div><p style="color:#9aa5bd;text-align:center">Cuando llegue a 0 aparecerá el botón.</p></div>`;tickTimer=setInterval(()=>{n--;stage.querySelector("#clock").textContent=Math.max(0,n);if(n<=0){clearInterval(tickTimer);stage.appendChild(button("🚀 CONTINUAR",()=>finish("Esperaste... qué sospechoso","⏳")))}},1000);
+  let n=5;stage.innerHTML=`<div style="text-align:center"><div id="clock" class="clock">${n}</div><p style="color:var(--muted)">El botón real aparece cuando llega a cero.<br>El botón de antes es falso.</p><button class="action" id="fakeWait">🚀 CONTINUAR</button></div>`;
+  $("fakeWait").onclick=()=>fail("😂 Era demasiado obvio.");
+  timerId=setInterval(()=>{n--;stage.querySelector("#clock").textContent=Math.max(n,0);if(n<=0){clearInterval(timerId);$("fakeWait").remove();stage.appendChild(btn("✅ CONTINUAR",()=>win("Esperaste el momento exacto","⏳")))}},1000)
 },
 buttons(){
-  const box=document.createElement("div");box.className="options";stage.appendChild(box);for(let i=0;i<4;i++){const b=button(["🔵","🟣","🟢","🟡"][i]+" BOTÓN "+(i+1),()=>i===2?finish("¡Encontraste el único que sirve!","🔘"):fail("Ese botón era decorativo."),"opt");box.appendChild(b)}
+  const box=document.createElement("div");box.className="options";stage.appendChild(box);
+  ["🔵 BOTÓN 1","🟣 BOTÓN 2","🟢 BOTÓN 3","🟡 BOTÓN 4"].forEach((x,i)=>{const b=btn(x,()=>i===2?win("¡Ese sí funcionaba!","🔘"):fail("Ese solo hacía parecer que funcionaba."),"option");box.appendChild(b)})
 },
-final(){stage.innerHTML='<div style="text-align:center"><div style="font-size:5rem">🎉</div><h2 style="font-size:3rem">GRACIAS POR JUGAR</h2><p style="color:#a5b0c9;line-height:1.6">Sobreviviste a todos los trolls de BloxNex.<br>Ahora ya sabes que nunca debes confiar en un botón.</p><button class="big" id="againGame">🔄 JUGAR DE NUEVO</button></div>';stage.querySelector("#againGame").onclick=()=>{current=0;points=0;$("scoreTop").textContent="0 pts";render()};confetti(60)}
+keyboard(){
+  const keys=["A","K","Z","M","P"],want=keys.slice().sort(()=>Math.random()-.5).slice(0,3),typed=[];
+  stage.innerHTML=`<div style="text-align:center"><div class="question">Pulsa estas teclas en orden:</div><div style="font-size:2rem;font-weight:1000;letter-spacing:.2em">${want.join(" → ")}</div><p style="color:var(--muted)">No vale adelantarse.</p></div>`;
+  const fn=e=>{if(!/^[a-z]$/i.test(e.key))return;const k=e.key.toUpperCase();if(k!==want[typed.length]){typed.length=0;fail("⌨️ Orden incorrecto. Empieza otra vez.");return}typed.push(k);toast(`✅ ${typed.length}/${want.length}`);if(typed.length===want.length){document.removeEventListener("keydown",fn);win("¡Secuencia correcta!","⌨️")}};
+  document.addEventListener("keydown",fn);cleanUp=()=>document.removeEventListener("keydown",fn)
+},
+password(){
+  stage.innerHTML='<div style="text-align:center"><div class="question">Introduce la contraseña secreta.</div><p style="color:var(--muted)">Pista: la palabra TROLL aparece varias veces en la pantalla. La contraseña es esa palabra.</p><div class="codeRow"><input id="pass" class="input" placeholder="______"><button id="enter" class="action">Entrar</button></div></div><div style="position:absolute;opacity:.02;bottom:7px;left:50%">TROLL TROLL TROLL</div>';
+  $("enter").onclick=()=>$("pass").value.trim().toUpperCase()==="TROLL"?win("¡Contraseña correcta!","🔑"):fail("🔒 Esa no es.")
+},
+final(){
+  stage.innerHTML='<div style="text-align:center"><div style="font-size:5rem">🎉</div><h2 style="font-size:3.1rem;margin:4px 0">GRACIAS POR JUGAR</h2><p style="color:var(--muted);line-height:1.7">Completaste los 47 niveles.<br>Sobreviviste a las trampas, los botones, las ventanas y los trolls.</p><button class="primary" id="again">🔄 JUGAR DE NUEVO</button></div>';
+  $("again").onclick=()=>{current=0;score=0;$("scoreTop").textContent="0 pts";render()};confetti(80)
+}
 };
 
-function startMusic(){if(muted)return;audioReady();if(window.mus)return;let i=0;const m=[261.63,329.63,392,329.63,220,293.66,349.23,293.66];window.mus=setInterval(()=>{if(muted||!audio)return;const n=audio.currentTime,o=audio.createOscillator(),g=audio.createGain();o.type="triangle";o.frequency.value=m[i++%m.length];g.gain.setValueAtTime(.0001,n);g.gain.exponentialRampToValueAtTime(.015,n+.02);g.gain.exponentialRampToValueAtTime(.0001,n+.28);o.connect(g).connect(audio.destination);o.start(n);o.stop(n+.3)},320)}
+function render(){
+  clearLevel();const L=LEVELS[current];
+  $("levelText").textContent=`Nivel ${current+1} / ${LEVELS.length}`;$("bar").style.width=(current/(LEVELS.length-1)*100)+"%";
+  $("title").textContent=`${L.icon} ${L.title}`;$("desc").textContent=L.desc;
+  $("tip").textContent=["Consejo: desconfía de todo.","Consejo: prueba movimientos raros.","Consejo: lee literalmente.","Consejo: el juego intenta confundirte."][current%4];
+  (MODES[L.type]||MODES.fake)(L.mode)
+}
+$("startBtn").onclick=()=>{audioOn();startMusic();$("intro").classList.remove("active");$("play").classList.add("active");render()};
+$("nextBtn").onclick=()=>{if(current===LEVELS.length-1){current=0;score=0;$("scoreTop").textContent="0 pts"}else current++;render()};
+$("resetBtn").onclick=()=>{current=0;score=0;$("scoreTop").textContent="0 pts";$("play").classList.remove("active");$("intro").classList.add("active");clearLevel()};
+$("soundBtn").onclick=()=>{muted=!muted;$("soundBtn").textContent=muted?"🔇":"🔊";if(!muted){audioOn();startMusic()}};
 </script>
 </body>
 </html>
